@@ -9,10 +9,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.annotation.Resource;
+import javax.enterprise.context.SessionScoped;
 import javax.sql.DataSource;
 
 import ca.bcit.assignment2.model.CredentialsModel;
 
+@SessionScoped
 public class CredentialManager implements Serializable{
     private static final long serialVersionUID = 1L;
 

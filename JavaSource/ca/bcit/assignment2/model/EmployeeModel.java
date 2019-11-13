@@ -44,9 +44,13 @@ public class EmployeeModel extends ca.bcit.infosys.employee.Employee{
         setEditable(false);
     }
     
-    public EmployeeModel (Employee emp) {
+    public EmployeeModel(Employee emp) {
         super(emp.getName(), emp.getEmpNumber(), emp.getUserName());
-        setAdmin(false);
+        if(emp.getUserName().equals("admin")) {
+            setAdmin(true);
+        } else {
+            setAdmin(false);
+        }
         setLoggedIn(false);
         setEditable(false);
     }

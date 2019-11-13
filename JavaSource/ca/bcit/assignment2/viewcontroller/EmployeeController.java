@@ -41,7 +41,6 @@ public class EmployeeController implements EmployeeList {
     private EmployeeModel currentEmployee = new EmployeeModel();
     
     
-    @Override
     public List<Employee> getEmployees() {
         return Arrays.asList(employeeManager.getAll());
     }
@@ -75,6 +74,7 @@ public class EmployeeController implements EmployeeList {
             String name = creds.getUserName();
             currentEmployee = new EmployeeModel(employeeManager.find(name));
             System.out.println("in here");
+            
             currentEmployee.setLoggedIn(true);
             return "home";
         } else {

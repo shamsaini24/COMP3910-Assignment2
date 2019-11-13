@@ -12,8 +12,8 @@ import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
 import javax.sql.DataSource;
 
+import ca.bcit.assignment2.model.EmployeeModel;
 import ca.bcit.infosys.employee.Employee;
-
 
 @SessionScoped
 public class EmployeeManager implements Serializable{
@@ -30,7 +30,7 @@ public class EmployeeManager implements Serializable{
      *            primary key for record.
      * @return the Employee record with key = id, null if not found.
      */
-    public Employee find(String username) {
+    public EmployeeModel find(String username) {
         Statement stmt = null;
         Connection connection = null;
         try {
@@ -42,7 +42,7 @@ public class EmployeeManager implements Serializable{
                             .executeQuery("SELECT * FROM Employees "
                                     + "where EmpUsername = '" + username + "'");
                     if (result.next()) {
-                        return new Employee(result.getString("EmpName"), result.getInt("EmpNum"),
+                        return new EmployeeModel(result.getString("EmpName"), result.getInt("EmpNum"),
                                 result.getString("EmpUsername"));
                     } else {
                         return null;
@@ -106,7 +106,7 @@ public class EmployeeManager implements Serializable{
      * @param employee
      *            the record to be merged.
      */
-    public void merge(Employee employee) {
+    public void merge(EmployeeModel employee) {
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
@@ -179,7 +179,7 @@ public class EmployeeManager implements Serializable{
      */
     public Employee[] getAll() {
         Connection connection = null;        
-        ArrayList<Employee> categories = new ArrayList<Employee>();
+        ArrayList<EmployeeModel> employeeList = new ArrayList<EmployeeModel>();
         Statement stmt = null;
         try {
             try {
@@ -189,7 +189,7 @@ public class EmployeeManager implements Serializable{
                     ResultSet result = stmt.executeQuery(
                             "SELECT * FROM Employees ORDER BY EmpNum");
                     while (result.next()) {
-                        categories.add(new Employee(
+                        employeeList.add(new EmployeeModel(
                                 result.getString("EmpName"), 
                                 result.getInt("EmpNum"),
                                 result.getString("EmpUsername")));
@@ -211,7 +211,7 @@ public class EmployeeManager implements Serializable{
             return null;
         }
 
-        Employee[] catarray = new Employee[categories.size()];
-        return categories.toArray(catarray);
+        EmployeeModel[] catarray = new EmployeeModel[employeeList.size()];
+        return employeeList.toArray(catarray);
     }
 }
