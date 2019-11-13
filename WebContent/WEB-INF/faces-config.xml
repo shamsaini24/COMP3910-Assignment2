@@ -1,85 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<faces-config version="2.2"
-	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
-	
-	<navigation-rule>
-		<navigation-case>
-			<from-outcome>logout</from-outcome>
-			<to-view-id>/login.xhtml</to-view-id>
-		</navigation-case>
-	</navigation-rule>
-	
-	<navigation-rule>
-		<navigation-case>
-			<from-outcome>createEmployee</from-outcome>
-			<to-view-id>/employeeCreation.xhtml</to-view-id>
-		</navigation-case>
-	</navigation-rule>
-	
-	<navigation-rule>
-		<from-view-id>/login.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>accessGranted</from-outcome>
-			<to-view-id>/timetable.xhtml</to-view-id>
-		</navigation-case>
-	</navigation-rule>
-	
-	<navigation-rule>
-		<from-view-id>/login.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>accessDenied</from-outcome>
-			<to-view-id>/login.xhtml</to-view-id>
-		</navigation-case>
-	</navigation-rule>
-	
-	<navigation-rule>
-		<from-view-id>/employeeCreation.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>creationComplete</from-outcome>
-			<to-view-id>/timetable.xhtml</to-view-id>
-		</navigation-case>
-	</navigation-rule>
-	
-	<navigation-rule>
-		<from-view-id>/changePassword.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>passwordChangeSuccess</from-outcome>
-			<to-view-id>/timetable.xhtml</to-view-id>
-		</navigation-case>
-	</navigation-rule>
-	
-	<navigation-rule>
-		<from-view-id>/editEmployee.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>success</from-outcome>
-			<to-view-id>/manageEmployees.xhtml</to-view-id>
-		</navigation-case>
-		
-		<navigation-case>
-			<from-outcome>back</from-outcome>
-			<to-view-id>/manageEmployees.xhtml</to-view-id>
-		</navigation-case>
-	</navigation-rule>
-	
-	<navigation-rule>
-		<navigation-case>
-			<from-outcome>addTimesheet</from-outcome>
-			<to-view-id>/addTimesheet.xhtml</to-view-id>
-		</navigation-case>
-	</navigation-rule>
-	
-	<navigation-rule>
-		<navigation-case>
-			<from-outcome>pushNewTimesheet</from-outcome>
-			<to-view-id>/timetable.xhtml</to-view-id>
-		</navigation-case>
-	</navigation-rule>
-	
-	  <resource-bundle>
-		<base-name>com.corejsf.messages</base-name>
-		<var>msgs</var>
-	   </resource-bundle>
-	<application />
+
+<faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+	<application>
+    <locale-config>
+       <default-locale>en</default-locale>
+       <supported-locale>fr</supported-locale>
+    </locale-config>
+    <resource-bundle>
+        <base-name>ca.comp3910.database.messages</base-name>
+        <var>msgs</var>
+    </resource-bundle>
+  </application>
 </faces-config>

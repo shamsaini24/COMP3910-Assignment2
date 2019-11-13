@@ -12,7 +12,8 @@ import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
 import javax.sql.DataSource;
 
-import ca.bcit.infosys.employee.Employee;
+import ca.bcit.assignment2.model.Employee;
+
 
 
 @SessionScoped
@@ -24,11 +25,11 @@ public class EmployeeManager implements Serializable{
     private DataSource ds;
 
     /**
-     * Find Category record from database.
+     * Find Employee record from database.
      * 
      * @param id
      *            primary key for record.
-     * @return the Category record with key = id, null if not found.
+     * @return the Employee record with key = id, null if not found.
      */
     public Employee find(int id) {
         Statement stmt = null;
@@ -66,9 +67,9 @@ public class EmployeeManager implements Serializable{
     }
 
     /**
-     * Persist Category record into database. id must be unique.
+     * Persist Employee record into database. id must be unique.
      * 
-     * @param category
+     * @param employee
      *            the record to be persisted.
      */
     public void persist(Employee employee) {
@@ -100,9 +101,9 @@ public class EmployeeManager implements Serializable{
     }
 
     /**
-     * merge Category record fields into existing database record.
+     * merge Employee record fields into existing database record.
      * 
-     * @param category
+     * @param employee
      *            the record to be merged.
      */
     public void merge(Employee employee) {
@@ -136,9 +137,9 @@ public class EmployeeManager implements Serializable{
     }
 
     /**
-     * Remove category from database.
+     * Remove employee from database.
      * 
-     * @param category
+     * @param employee
      *            record to be removed from database
      */
     public void remove(Employee employee) {
@@ -169,9 +170,9 @@ public class EmployeeManager implements Serializable{
     }
 
     /**
-     * Return Categories table as array of Category.
+     * Return Employees table as array of Category.
      * 
-     * @return Category[] of all records in Categories table
+     * @return Employee[] of all records in Employees table
      */
     public Employee[] getAll() {
         Connection connection = null;        
