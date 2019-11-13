@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<head>
+<title>IGNORED</title>
+</head>
+<body>
+	<ui:composition template="/templates/masterLayout.xhtml">
+		<ui:define name="windowTitle">
+         	Edit Employee
+         </ui:define>
+         
+         <ui:define name="heading">
+         	<ui:include src="/sections/editEmployee/header.xhtml"/>
+         </ui:define>
+         
+         
+         <ui:define name="sidebarLeft">
+         	<ui:include src="/sections/editEmployee/sidebarLeft.xhtml"/>
+         </ui:define>
+         
+         
+		<ui:define name="content">
+			<h:form>
+				<table>
+					<tr>
+						<td>Name</td>
+						<td><h:inputText value="#{employeeLogin.modifiedEmployee.name}" required="true"/></td>
+					</tr>
+					<tr>
+						<td>EmpNumber</td>
+						<td><h:inputText value="#{employeeLogin.modifiedEmployee.empNumber}" /></td>
+					</tr>
+					<tr>
+						<td>User Name</td>
+						<td><h:inputText value="#{employeeLogin.modifiedEmployee.userName}" /></td>
+					</tr>
+					<tr>
+						<td>New Password</td>
+						<td><h:inputText value="#{employeeLogin.newEmpPassword}" /></td>
+					</tr>
+					<tr>
+						<td>Confirm Password</td>
+						<td><h:inputText value="#{employeeLogin.newEmpPasswordConfirm}" /></td>
+					</tr>
+				</table>
+				
+				<h:commandButton action="#{employeeLogin.modifyEmployeeDetails()}" value="Done" />
+				<h:commandButton action="back" value="Back" />
+				
+
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

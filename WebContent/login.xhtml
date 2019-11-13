@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+	<h:outputStylesheet library="css" name="styles.css" />
+	<title>TimeSheet Application</title>
+</h:head>
+
+<h:body>
+	<h1>TimeSheet Login</h1>
+	<h:form>
+		<table>
+			<tr>
+				<td><h3>Username</h3></td>
+				<td><h:inputText value="#{employeeLogin.loginUsername}" /></td>
+			</tr>
+			<tr>
+				<td><h3>Password</h3></td>
+				<td><h:inputSecret value="#{employeeLogin.loginPassword}" /></td>
+			</tr>
+		</table>
+
+		<h:commandButton value="Login" action="#{employeeLogin.login}" />
+	</h:form>
+</h:body>
+</html>
