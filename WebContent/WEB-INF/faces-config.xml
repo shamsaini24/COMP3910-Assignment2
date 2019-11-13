@@ -8,7 +8,7 @@
        <supported-locale>fr</supported-locale>
     </locale-config>
     <resource-bundle>
-        <base-name>ca.comp3910.database.messages</base-name>
+        <base-name>ca.bcit.assignment2.access.messages</base-name>
         <var>msgs</var>
     </resource-bundle>
   </application>

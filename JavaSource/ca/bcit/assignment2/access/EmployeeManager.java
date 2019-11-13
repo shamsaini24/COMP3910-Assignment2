@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
 import javax.sql.DataSource;
 
-import ca.bcit.assignment2.model.Employee;
+import ca.bcit.infosys.employee.Employee;
 
 
 
@@ -31,7 +31,7 @@ public class EmployeeManager implements Serializable{
      *            primary key for record.
      * @return the Employee record with key = id, null if not found.
      */
-    public Employee find(int id) {
+    public Employee find(String username) {
         Statement stmt = null;
         Connection connection = null;
         try {
@@ -40,11 +40,11 @@ public class EmployeeManager implements Serializable{
                 try {
                     stmt = connection.createStatement();
                     ResultSet result = stmt
-                            .executeQuery("SELECT * FROM Categories "
-                                    + "where categoryID = '" + id + "'");
+                            .executeQuery("SELECT * FROM Employees "
+                                    + "where empUsername = '" + username + "'");
                     if (result.next()) {
-                        return new Employee(result.getInt("CategoryID"),
-                                result.getString("CategoryName"));
+                        return new Employee(result.getString("EmpName"), result.getInt("EmpNo"),
+                                result.getString("EmpUsername"));
                     } else {
                         return null;
                     }
@@ -60,7 +60,7 @@ public class EmployeeManager implements Serializable{
                 }
             }
         } catch (SQLException ex) {
-            System.out.println("Error in find " + id);
+            System.out.println("Error in find " + username);
             ex.printStackTrace();
             return null;
         }
@@ -80,9 +80,10 @@ public class EmployeeManager implements Serializable{
                 connection = ds.getConnection();
                 try {
                     stmt = connection.prepareStatement(
-                            "INSERT INTO Categories VALUES (?, ?)");
-                    stmt.setInt(1, category.getId());
-                    stmt.setString(2, category.getName());
+                            "INSERT INTO Employees VALUES (?, ?, ?)");
+                    stmt.setInt(1, employee.getEmpNumber());
+                    stmt.setString(2, employee.getUserName());
+                    stmt.setString(3, employee.getName());
                     stmt.executeUpdate();
                 } finally {
                     if (stmt != null) {
@@ -95,7 +96,7 @@ public class EmployeeManager implements Serializable{
                 }
             }
         } catch (SQLException ex) {
-            System.out.println("Error in persist " + category);
+            System.out.println("Error in persist " + employee);
             ex.printStackTrace();
         }
     }
@@ -114,10 +115,13 @@ public class EmployeeManager implements Serializable{
                 connection = ds.getConnection();
                 try {
                     stmt = connection.prepareStatement(
-                            "UPDATE Categories SET CategoryName = ? "
-                                    + "WHERE CategoryID =  ?");
-                    stmt.setString(1, category.getName());
-                    stmt.setInt(2, category.getId());
+                            "UPDATE Employees "
+                            + "SET empUsername = ?"
+                            + "SET empName = ?"
+                            + "WHERE EmpNum =  ?");
+                    stmt.setString(1, employee.getUserName());
+                    stmt.setString(2, employee.getName());
+                    stmt.setInt(3, employee.getEmpNumber());
                     stmt.executeUpdate();
                 } finally {
                     if (stmt != null) {
@@ -131,7 +135,7 @@ public class EmployeeManager implements Serializable{
                 }
             }
         } catch (SQLException ex) {
-            System.out.println("Error in merge " + category);
+            System.out.println("Error in merge " + employee);
             ex.printStackTrace();
         }
     }
@@ -150,8 +154,8 @@ public class EmployeeManager implements Serializable{
                 connection = ds.getConnection();
                 try {
                     stmt = connection.prepareStatement(
-                            "DELETE FROM Categories WHERE CategoryID =  ?");
-                    stmt.setInt(1, category.getId());
+                            "DELETE FROM Employees WHERE EmpNo =  ?");
+                    stmt.setInt(1, employee.getEmpNumber());
                     stmt.executeUpdate();
                 } finally {
                     if (stmt != null) {
@@ -164,13 +168,13 @@ public class EmployeeManager implements Serializable{
                 }
             }
         } catch (SQLException ex) {
-            System.out.println("Error in remove " + category);
+            System.out.println("Error in remove " + employee);
             ex.printStackTrace();
         }
     }
 
     /**
-     * Return Employees table as array of Category.
+     * Return Employees table as array of Employees.
      * 
      * @return Employee[] of all records in Employees table
      */
@@ -184,11 +188,12 @@ public class EmployeeManager implements Serializable{
                 try {
                     stmt = connection.createStatement();
                     ResultSet result = stmt.executeQuery(
-                            "SELECT * FROM Categories ORDER BY CategoryID");
+                            "SELECT * FROM Employees ORDER BY EmpNum");
                     while (result.next()) {
                         categories.add(new Employee(
-                                result.getInt("CategoryID"), 
-                                result.getString("CategoryName")));
+                                result.getString("empName"), 
+                                result.getInt("empNum"),
+                                result.getString("empUsername")));
                     }
                 } finally {
                     if (stmt != null) {
