@@ -13,4 +13,8 @@ public class Employee extends ca.bcit.infosys.employee.Employee{
     public Employee(final String empName, final int number, final String id) {
         super(empName, number, id);
     }
+    
+    public Employee () {
+        super();
+    }
 }

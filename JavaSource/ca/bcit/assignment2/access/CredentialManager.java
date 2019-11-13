@@ -20,11 +20,11 @@ public class CredentialManager {
     private DataSource ds;
 
     /**
-     * Find Employee record from database.
+     * Find a Credential record from database.
      * 
      * @param id
      *            primary key for record.
-     * @return the Employee record with key = id, null if not found.
+     * @return the Credential record with key = id, null if not found.
      */
     public Credentials find(int id) {
         Statement stmt = null;
@@ -35,11 +35,13 @@ public class CredentialManager {
                 try {
                     stmt = connection.createStatement();
                     ResultSet result = stmt
-                            .executeQuery("SELECT * FROM Categories "
-                                    + "where categoryID = '" + id + "'");
+                            .executeQuery("SELECT * FROM Credentials "
+                                    + "where EmpNum = '" + id + "'");
                     if (result.next()) {
-                        return new Credentials(result.getInt("CategoryID"),
-                                result.getString("CategoryName"));
+                        Credentials cred = new Credentials();
+                        cred.setPassword(result.getString("EmpPassword"));
+                        cred.setUserName(result.getString("EmpUsername"));
+                        return cred;
                     } else {
                         return null;
                     }
@@ -62,9 +64,9 @@ public class CredentialManager {
     }
 
     /**
-     * Persist Employee record into database. id must be unique.
+     * Persist Credential record into database. id must be unique.
      * 
-     * @param employee
+     * @param credential
      *            the record to be persisted.
      */
     public void persist(Credentials credential) {
@@ -75,9 +77,10 @@ public class CredentialManager {
                 connection = ds.getConnection();
                 try {
                     stmt = connection.prepareStatement(
-                            "INSERT INTO Categories VALUES (?, ?)");
-                    stmt.setInt(1, category.getId());
-                    stmt.setString(2, category.getName());
+                            "INSERT INTO Credentials VALUES (?, ?, ?)");
+                    stmt.setInt(1, credential.getEmployee().getEmpNumber());
+                    stmt.setString(2, credential.getUserName());
+                    stmt.setString(3, credential.getPassword());
                     stmt.executeUpdate();
                 } finally {
                     if (stmt != null) {
@@ -90,15 +93,15 @@ public class CredentialManager {
                 }
             }
         } catch (SQLException ex) {
-            System.out.println("Error in persist " + category);
+            System.out.println("Error in persist " + credential);
             ex.printStackTrace();
         }
     }
 
     /**
-     * merge Employee record fields into existing database record.
+     * merge Credential record fields into existing database record.
      * 
-     * @param employee
+     * @param credential
      *            the record to be merged.
      */
     public void merge(Credentials credential) {
@@ -109,10 +112,10 @@ public class CredentialManager {
                 connection = ds.getConnection();
                 try {
                     stmt = connection.prepareStatement(
-                            "UPDATE Categories SET CategoryName = ? "
-                                    + "WHERE CategoryID =  ?");
-                    stmt.setString(1, category.getName());
-                    stmt.setInt(2, category.getId());
+                            "UPDATE Credentials SET EmpPassword = ? "
+                                    + "WHERE EmpNum =  ?");
+                    stmt.setString(1, credential.getPassword());
+                    stmt.setInt(2, credential.getEmployee().getEmpNumber());
                     stmt.executeUpdate();
                 } finally {
                     if (stmt != null) {
@@ -126,15 +129,15 @@ public class CredentialManager {
                 }
             }
         } catch (SQLException ex) {
-            System.out.println("Error in merge " + category);
+            System.out.println("Error in merge " + credential);
             ex.printStackTrace();
         }
     }
 
     /**
-     * Remove employee from database.
+     * Remove Credential from database.
      * 
-     * @param employee
+     * @param credential
      *            record to be removed from database
      */
     public void remove(Credentials credential) {
@@ -145,8 +148,8 @@ public class CredentialManager {
                 connection = ds.getConnection();
                 try {
                     stmt = connection.prepareStatement(
-                            "DELETE FROM Categories WHERE CategoryID =  ?");
-                    stmt.setInt(1, category.getId());
+                            "DELETE FROM Credentials WHERE EmpNum =  ?");
+                    stmt.setInt(1, credential.getEmployee().getEmpNumber());
                     stmt.executeUpdate();
                 } finally {
                     if (stmt != null) {
@@ -159,15 +162,15 @@ public class CredentialManager {
                 }
             }
         } catch (SQLException ex) {
-            System.out.println("Error in remove " + category);
+            System.out.println("Error in remove " + credential);
             ex.printStackTrace();
         }
     }
 
     /**
-     * Return Employees table as array of Category.
+     * Return Credentials table as array of Credentials.
      * 
-     * @return Employee[] of all records in Employees table
+     * @return Credentials[] of all records in Credentials table
      */
     public Credentials[] getAll() {
         Connection connection = null;        
@@ -179,11 +182,12 @@ public class CredentialManager {
                 try {
                     stmt = connection.createStatement();
                     ResultSet result = stmt.executeQuery(
-                            "SELECT * FROM Categories ORDER BY CategoryID");
+                            "SELECT * FROM Credentials ORDER BY EmpNum");
                     while (result.next()) {
                         categories.add(new Credentials(
-                                result.getInt("CategoryID"), 
-                                result.getString("CategoryName")));
+                                result.getInt("EmpNum"), 
+                                result.getString("EmpUsername"),
+                                result.getString("EmpPassword")));
                     }
                 } finally {
                     if (stmt != null) {

@@ -38,13 +38,8 @@ public class EmployeeController implements EmployeeList {
     }
 
     @Override
-    public Employee getEmployee(String name) {
-        for (Employee emp : employees) {
-            if (emp.getName() == name) {
-                return emp;
-            }
-        }
-        return null;
+    public Employee getEmployee(String username) {
+        return employeeManager.find(username);
     }
 
     @Override
@@ -64,12 +59,7 @@ public class EmployeeController implements EmployeeList {
 
     @Override
     public Employee getAdministrator() {
-        for (Employee emp : employees) {
-            if (((EmployeeDetail)emp).isAdmin()) {
-                return emp;
-            }
-        }
-        return null;
+        return employeeManager.find("admin");
     }
     
     /**
@@ -112,13 +102,13 @@ public class EmployeeController implements EmployeeList {
 
     @Override
     public void deleteEmployee(Employee userToDelete) {
-        employees.remove(userToDelete);
+        employeeManager.remove(userToDelete);
         credentials.remove(userToDelete.getUserName());
     }
 
     @Override
     public void addEmployee(Employee newEmployee) {
-       employees.add(newEmployee);
+       employeeManager.persist(newEmployee);
     }
     
     /**

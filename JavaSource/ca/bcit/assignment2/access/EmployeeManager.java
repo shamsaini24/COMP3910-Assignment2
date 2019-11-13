@@ -41,7 +41,7 @@ public class EmployeeManager implements Serializable{
                     stmt = connection.createStatement();
                     ResultSet result = stmt
                             .executeQuery("SELECT * FROM Employees "
-                                    + "where empUsername = '" + username + "'");
+                                    + "where EmpUsername = '" + username + "'");
                     if (result.next()) {
                         return new Employee(result.getString("EmpName"), result.getInt("EmpNo"),
                                 result.getString("EmpUsername"));
@@ -116,8 +116,8 @@ public class EmployeeManager implements Serializable{
                 try {
                     stmt = connection.prepareStatement(
                             "UPDATE Employees "
-                            + "SET empUsername = ?"
-                            + "SET empName = ?"
+                            + "SET EmpUsername = ?"
+                            + "SET EmpName = ?"
                             + "WHERE EmpNum =  ?");
                     stmt.setString(1, employee.getUserName());
                     stmt.setString(2, employee.getName());
@@ -191,9 +191,9 @@ public class EmployeeManager implements Serializable{
                             "SELECT * FROM Employees ORDER BY EmpNum");
                     while (result.next()) {
                         categories.add(new Employee(
-                                result.getString("empName"), 
-                                result.getInt("empNum"),
-                                result.getString("empUsername")));
+                                result.getString("EmpName"), 
+                                result.getInt("EmpNum"),
+                                result.getString("EmpUsername")));
                     }
                 } finally {
                     if (stmt != null) {
