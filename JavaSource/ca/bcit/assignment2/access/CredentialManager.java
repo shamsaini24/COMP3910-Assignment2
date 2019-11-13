@@ -1,5 +1,6 @@
 package ca.bcit.assignment2.access;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,9 +11,9 @@ import java.util.ArrayList;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
-import ca.bcit.assignment2.model.Credentials;
+import ca.bcit.assignment2.model.CredentialsModel;
 
-public class CredentialManager {
+public class CredentialManager implements Serializable{
     private static final long serialVersionUID = 1L;
 
     /** dataSource for connection pool on JBoss AS 7 or higher. */
@@ -26,7 +27,7 @@ public class CredentialManager {
      *            primary key for record.
      * @return the Credential record with key = id, null if not found.
      */
-    public Credentials find(int id) {
+    public CredentialsModel find(int id) {
         Statement stmt = null;
         Connection connection = null;
         try {
@@ -38,7 +39,7 @@ public class CredentialManager {
                             .executeQuery("SELECT * FROM Credentials "
                                     + "where EmpNum = '" + id + "'");
                     if (result.next()) {
-                        Credentials cred = new Credentials();
+                        CredentialsModel cred = new CredentialsModel();
                         cred.setPassword(result.getString("EmpPassword"));
                         cred.setUserName(result.getString("EmpUsername"));
                         return cred;
@@ -69,7 +70,7 @@ public class CredentialManager {
      * @param credential
      *            the record to be persisted.
      */
-    public void persist(Credentials credential) {
+    public void persist(CredentialsModel credential) {
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
@@ -104,7 +105,7 @@ public class CredentialManager {
      * @param credential
      *            the record to be merged.
      */
-    public void merge(Credentials credential) {
+    public void merge(CredentialsModel credential) {
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
@@ -140,7 +141,7 @@ public class CredentialManager {
      * @param credential
      *            record to be removed from database
      */
-    public void remove(Credentials credential) {
+    public void remove(CredentialsModel credential) {
         Connection connection = null;        
         PreparedStatement stmt = null;
         try {
@@ -172,9 +173,9 @@ public class CredentialManager {
      * 
      * @return Credentials[] of all records in Credentials table
      */
-    public Credentials[] getAll() {
+    public CredentialsModel[] getAll() {
         Connection connection = null;        
-        ArrayList<Credentials> categories = new ArrayList<Credentials>();
+        ArrayList<CredentialsModel> categories = new ArrayList<CredentialsModel>();
         Statement stmt = null;
         try {
             try {
@@ -184,7 +185,7 @@ public class CredentialManager {
                     ResultSet result = stmt.executeQuery(
                             "SELECT * FROM Credentials ORDER BY EmpNum");
                     while (result.next()) {
-                        categories.add(new Credentials(
+                        categories.add(new CredentialsModel(
                                 result.getInt("EmpNum"), 
                                 result.getString("EmpUsername"),
                                 result.getString("EmpPassword")));
@@ -206,7 +207,7 @@ public class CredentialManager {
             return null;
         }
 
-        Credentials[] catarray = new Credentials[categories.size()];
+        CredentialsModel[] catarray = new CredentialsModel[categories.size()];
         return categories.toArray(catarray);
     }
 }

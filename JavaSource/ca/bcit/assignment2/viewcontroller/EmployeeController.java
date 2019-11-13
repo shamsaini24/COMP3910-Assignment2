@@ -7,29 +7,38 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import ca.bcit.assignment2.access.CredentialManager;
 import ca.bcit.assignment2.access.EmployeeManager;
+import ca.bcit.assignment2.model.CredentialsModel;
+import ca.bcit.assignment2.model.EmployeeModel;
 import ca.bcit.infosys.employee.Credentials;
 import ca.bcit.infosys.employee.Employee;
 import ca.bcit.infosys.employee.EmployeeList;
 
 @Named("employee")
-@ApplicationScoped
+@SessionScoped
 
 /**
  * bean that talks to the templates and defines the employee
  */
 public class EmployeeController implements EmployeeList {
     
-    /** Manager for category objects.*/
+    /** Manager for Employee objects.*/
     @Inject private EmployeeManager employeeManager;
+    
+    /** Manager for Credential objects.*/
+    @Inject private CredentialManager credentialManager;
     
     /**
      * reference to the credentials of the current user
      */
-    private Credentials creds = new Credentials();
+    private CredentialsModel creds = new CredentialsModel();
+    
+    private EmployeeModel currentEmployee = new EmployeeModel();
     
     
     @Override
@@ -49,12 +58,7 @@ public class EmployeeController implements EmployeeList {
 
     @Override
     public Employee getCurrentEmployee() {
-        for (Employee emp : employees) {
-            if (((EmployeeDetail)emp).isLoggedIn()) {
-                return emp;
-            }
-        }
-        return null;
+        return currentEmployee;
     }
 
     @Override
@@ -69,11 +73,7 @@ public class EmployeeController implements EmployeeList {
     public String login() {
         if (verifyUser(creds) == true) {
             String name = creds.getUserName();
-            for (Employee emp : employees) {
-                if (emp.getUserName().equals(name)) {
-                    ((EmployeeDetail)emp).setLoggedIn(true);
-                }
-            }
+            currentEmployee = new EmployeeModel(employeeManager.find(name));
             System.out.println("in here");
             return "home";
         } else {
@@ -86,8 +86,9 @@ public class EmployeeController implements EmployeeList {
         String name = credential.getUserName();
         String password = credential.getPassword();
         System.out.println(password);
-        if (credentials.containsKey(name)) {
-            return credentials.get(name).equals(password);
+        Employee loginEmployee = employeeManager.find(name);
+        if (credentialManager.find(loginEmployee.getEmpNumber()) != null) {
+            return credentialManager.find(loginEmployee.getEmpNumber()).getPassword().equals(password);
         } else {
             return false;
         }
@@ -95,15 +96,15 @@ public class EmployeeController implements EmployeeList {
 
     @Override
     public String logout(Employee employee) {
-        ((EmployeeDetail)employee).setLoggedIn(false);
-        creds = new Credentials();
+        ((EmployeeModel)employee).setLoggedIn(false);
+        creds = new CredentialsModel();
         return "login";
     }
 
     @Override
     public void deleteEmployee(Employee userToDelete) {
         employeeManager.remove(userToDelete);
-        credentials.remove(userToDelete.getUserName());
+        credentialManager.remove(creds);
     }
 
     @Override
@@ -124,7 +125,7 @@ public class EmployeeController implements EmployeeList {
      * setter for the creds of the current user
      * @param creds
      */
-    public void setCreds(Credentials creds) {
+    public void setCreds(CredentialsModel creds) {
         this.creds = creds;
     }
     
@@ -132,17 +133,17 @@ public class EmployeeController implements EmployeeList {
      * getter for the creds of the current user
      * @return
      */
-    public Credentials getCreds() {
+    public CredentialsModel getCreds() {
         return this.creds;
     }
     
     /**
-     * getter for the password of the current user, replaces select statement
+     * getter for the password of the current user,
      * @param em
      * @return
      */
     public String getPassword(Employee em) {
-        return credentials.get(em.getUserName());
+        return credentialManager.find(em.getEmpNumber()).getPassword();
     }
     
     /**
@@ -192,5 +193,11 @@ public class EmployeeController implements EmployeeList {
         }
         return null;
     }
+
+    public void setCurrentEmployee(EmployeeModel currentEmployee) {
+        this.currentEmployee = currentEmployee;
+    }
+    
+    
 
 }
