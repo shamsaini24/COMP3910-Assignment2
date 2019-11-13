@@ -75,6 +75,7 @@ public class EmployeeController implements EmployeeList {
             String name = creds.getUserName();
             currentEmployee = new EmployeeModel(employeeManager.find(name));
             System.out.println("in here");
+            currentEmployee.setLoggedIn(true);
             return "home";
         } else {
             return "fail";
@@ -96,7 +97,7 @@ public class EmployeeController implements EmployeeList {
 
     @Override
     public String logout(Employee employee) {
-        ((EmployeeModel)employee).setLoggedIn(false);
+        currentEmployee.setLoggedIn(false);
         creds = new CredentialsModel();
         return "login";
     }
@@ -158,7 +159,7 @@ public class EmployeeController implements EmployeeList {
         if (creds.getPassword().equals(old)) {
             if (newPass.equals(repeat)) {
                 creds.setPassword(newPass);
-                credentials.put(em.getUserName(), creds.getPassword());
+                credentialManager.merge(creds);
                 return "changePwdSuccess";
             } else {
                 return "changePwdFail";
