@@ -64,6 +64,48 @@ public class EmployeeManager implements Serializable{
             return null;
         }
     }
+    
+    /**
+     * Find Employee record from database.
+     * 
+     * @param id
+     *            primary key for record.
+     * @return the Employee record with key = id, null if not found.
+     */
+    public EmployeeModel find(int id) {
+        Statement stmt = null;
+        Connection connection = null;
+        try {
+            try {
+                connection = ds.getConnection();
+                try {
+                    stmt = connection.createStatement();
+                    ResultSet result = stmt
+                            .executeQuery("SELECT * FROM Employees "
+                                    + "where EmpNum = '" + id + "'");
+                    if (result.next()) {
+                        return new EmployeeModel(result.getString("EmpName"), result.getInt("EmpNum"),
+                                result.getString("EmpUsername"));
+                    } else {
+                        return null;
+                    }
+                } finally {
+                    if (stmt != null) {
+                        stmt.close();
+                    }
+
+                }
+            } finally {
+                if (connection != null) {
+                    connection.close();
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error in find " + id);
+            ex.printStackTrace();
+            return null;
+        }
+    }
 
     /**
      * Persist Employee record into database. id must be unique.
@@ -116,7 +158,7 @@ public class EmployeeManager implements Serializable{
                     stmt = connection.prepareStatement(
                             "UPDATE Employees "
                             + "SET EmpUsername = ?"
-                            + "SET EmpName = ?"
+                            + ", EmpName = ?"
                             + "WHERE EmpNum =  ?");
                     stmt.setString(1, employee.getUserName());
                     stmt.setString(2, employee.getName());

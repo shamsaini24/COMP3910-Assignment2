@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.sql.DataSource;
 
 import ca.bcit.assignment2.model.CredentialsModel;
@@ -21,6 +22,9 @@ public class CredentialManager implements Serializable{
     /** dataSource for connection pool on JBoss AS 7 or higher. */
     @Resource(mappedName = "java:jboss/datasources/employeeTimesheet")
     private DataSource ds;
+    
+    /** Manager for Employee objects.*/
+    @Inject private EmployeeManager employeeManager;
 
     /**
      * Find a Credential record from database.
@@ -115,10 +119,13 @@ public class CredentialManager implements Serializable{
                 connection = ds.getConnection();
                 try {
                     stmt = connection.prepareStatement(
-                            "UPDATE Credentials SET EmpPassword = ? "
-                                    + "WHERE EmpNum =  ?");
+                            "UPDATE Credentials "
+                            + "SET EmpPassword = ? "
+                            + ", EmpUsername = ?"
+                            + "WHERE EmpNum =  ?");
                     stmt.setString(1, credential.getPassword());
-                    stmt.setInt(2, credential.getEmployee().getEmpNumber());
+                    stmt.setString(2, credential.getUserName());
+                    stmt.setInt(3, credential.getEmployee().getEmpNumber());
                     stmt.executeUpdate();
                 } finally {
                     if (stmt != null) {
@@ -188,7 +195,7 @@ public class CredentialManager implements Serializable{
                             "SELECT * FROM Credentials ORDER BY EmpNum");
                     while (result.next()) {
                         categories.add(new CredentialsModel(
-                                result.getInt("EmpNum"), 
+                                employeeManager.find(result.getString("EmpUsername")), 
                                 result.getString("EmpUsername"),
                                 result.getString("EmpPassword")));
                     }

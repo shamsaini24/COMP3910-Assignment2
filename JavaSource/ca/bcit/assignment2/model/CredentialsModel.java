@@ -12,12 +12,11 @@ public class CredentialsModel extends ca.bcit.infosys.employee.Credentials{
         employee = new Employee();
     }
     
-    public CredentialsModel(int empNum, String empUsername, String empPassword) {
+    public CredentialsModel(Employee emp, String empUsername, String empPassword) {
         super();
         setUserName(empUsername);
         setPassword(empPassword);
-        employee = new EmployeeModel();
-        employee.setEmpNumber(empNum);//Unsure about how to do this initalization
+        employee = emp;
     }
     
     public CredentialsModel (Credentials cred) {

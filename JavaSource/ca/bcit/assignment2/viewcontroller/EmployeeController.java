@@ -33,11 +33,16 @@ public class EmployeeController implements EmployeeList {
     /** Manager for Credential objects.*/
     @Inject private CredentialManager credentialManager;
     
+    List<Employee> employeeList;
+    
     /**
      * reference to the credentials of the current user
      */
     private CredentialsModel creds = new CredentialsModel();
     
+    /**
+     * reference to the current user
+     */
     private EmployeeModel currentEmployee = new EmployeeModel();
     
     
@@ -88,7 +93,11 @@ public class EmployeeController implements EmployeeList {
         String password = credential.getPassword();
         System.out.println(password);
         Employee loginEmployee = employeeManager.find(name);
-        if (credentialManager.find(loginEmployee.getEmpNumber()) != null) {
+        if(loginEmployee == null) {
+            return false;
+        }
+        int loginNum = loginEmployee.getEmpNumber();
+        if (credentialManager.find(loginNum) != null) {
             return credentialManager.find(loginEmployee.getEmpNumber()).getPassword().equals(password);
         } else {
             return false;
@@ -178,25 +187,44 @@ public class EmployeeController implements EmployeeList {
     public String save(Employee em, String password) {
         if (password.length() < 1 || password == null) {
             System.out.println("password is not legible");
-            password = ((EmployeeDetail)em).getCreds().getPassword();
+            password = ((EmployeeModel)em).getCreds().getPassword();
         }
-        ((EmployeeDetail)em).setEditable(false);
-        credentials.put(em.getUserName(), password);
+        System.out.println("Password" + password);
+        System.out.println("Username" + em.getUserName());
+        ((EmployeeModel)em).setEditable(false);
+        CredentialsModel newCred = new CredentialsModel(employeeManager.find(em.getEmpNumber()), em.getUserName(), password);
+        credentialManager.merge(newCred);
+        employeeManager.merge((EmployeeModel)em);
         
-        for(Iterator<Map.Entry<String, String>> it = credentials.entrySet().iterator(); it.hasNext(); ) {
-            Map.Entry<String, String> entry = it.next();
-            boolean found = false;
-            for (Employee e : employees) {
-                if (e.getUserName() == entry.getKey()) {
-                    found = true;
-                }
-            }
-        }
+//        for(Iterator<Map.Entry<String, String>> it = credentials.entrySet().iterator(); it.hasNext(); ) {
+//            Map.Entry<String, String> entry = it.next();
+//            boolean found = false;
+//            for (Employee e : employees) {
+//                if (e.getUserName() == entry.getKey()) {
+//                    found = true;
+//                }
+//            }
+//        }
         return null;
     }
 
     public void setCurrentEmployee(EmployeeModel currentEmployee) {
         this.currentEmployee = currentEmployee;
+    }
+
+    public List<Employee> getEmployeeList() {
+        if(employeeList == null) {
+            refreshList();
+        }
+        return employeeList;
+    }
+    
+    public void refreshList() {
+        employeeList = getEmployees();
+    }
+
+    public void setEmployeeList(List<Employee> employeeList) {
+        this.employeeList = employeeList;
     }
     
     
