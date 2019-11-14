@@ -19,7 +19,7 @@
          
    		<ui:define name="content">
    			<h:form id="dataview" >
-   				<p:dataView widgetVar="dv" var="timesheet" value="#{timetable.getTimesheets(employee.getCurrentEmployee())}" rows="1" paginator="true" 
+   				<p:dataView widgetVar="dv" var="timesheet" value="#{timesheet.getTimesheets(employee.getCurrentEmployee())}" rows="1" paginator="true" 
                 paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}" layout="list" paginatorPosition="bottom" first="#{timetable.lastIndex}">
                 	<f:facet name="header">
 	            		#{msgs.timesheets}

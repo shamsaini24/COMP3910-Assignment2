@@ -29,7 +29,7 @@ INSERT INTO Timesheets VALUES (3, 1, "2019-10-11");
 
 
 DROP TABLE IF EXISTS TimesheetRows;
-CREATE TABLE TimesheetRows (TimesheetRowId int, TimesheetId int, ProjectID int, WorkPackage TINYTEXT, SatHours int, SunHours int, MonHours int, TueHours int, WedHours int, ThursHours int, FriHours int, Notes TINYTEXT);
+CREATE TABLE TimesheetRows (TimesheetRowId int, TimesheetId int, ProjectID int, WorkPackage TINYTEXT, SatHours NUMERIC, SunHours NUMERIC, MonHours NUMERIC, TueHours NUMERIC, WedHours NUMERIC, ThursHours NUMERIC, FriHours NUMERIC, Notes TINYTEXT);
 
 INSERT INTO TimesheetRows VALUES (0, 0, "132", "AA123", 5, 5, 5, 5, 5, 5, 5, "admin test notes");
 INSERT INTO TimesheetRows VALUES (1, 1, "125", "AA122", 2, 10, 2, 2, 6, 1, 7, "admin test notes");
