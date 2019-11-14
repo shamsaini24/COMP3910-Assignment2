@@ -86,3 +86,7 @@
 	font-weight: bold;
 	font-size: 14pt;
 }
+
+.errorMessage {
+   color: red; 
+}

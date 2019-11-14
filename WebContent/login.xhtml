@@ -13,11 +13,15 @@
   		<table>
   			<tr>
   				<td>#{msgs.name}</td>
-  				<td><h:inputText value="#{employee.creds.userName}" /></td>
+  				<td><h:inputText id="usernameLogin" label="#{msgs.name}" value="#{employee.creds.userName}" required="true"/></td>
+  				  			  	<td><h:message for="passwordLogin" styleClass="errorMessage"/></td>
+  				
   			</tr>
   			<tr>
   				<td>#{msgs.loginpwd}</td>
-  				<td><h:inputSecret value="#{employee.creds.password}"/></td>
+  				<td><h:inputSecret id="passwordLogin" label="#{msgs.loginpwd}" value="#{employee.creds.password}" required="true"/></td>
+  				  			  	<td><h:message for="usernameLogin" styleClass="errorMessage"/></td>
+  				
   			</tr>
   		</table>
   		<p><h:commandButton value="#{msgs.login}" action="#{employee.login()}"/></p>
