@@ -51,7 +51,7 @@ public class TimesheetRowManager implements Serializable{
                                 result.getBigDecimal("SatHours"), result.getBigDecimal("SunHours"),
                                 result.getBigDecimal("MonHours"), result.getBigDecimal("TueHours"),
                                 result.getBigDecimal("WedHours"), result.getBigDecimal("ThursHours"),
-                                result.getBigDecimal("FriHours"), result.getString("Notes"));
+                                result.getBigDecimal("FriHours"), result.getString("Notes"), false);
                     } else {
                         return null;
                     }
@@ -221,7 +221,7 @@ public class TimesheetRowManager implements Serializable{
                                 result.getBigDecimal("SatHours"), result.getBigDecimal("SunHours"),
                                 result.getBigDecimal("MonHours"), result.getBigDecimal("TueHours"),
                                 result.getBigDecimal("WedHours"), result.getBigDecimal("ThursHours"),
-                                result.getBigDecimal("FriHours"), result.getString("Notes")));
+                                result.getBigDecimal("FriHours"), result.getString("Notes"), false));
                     }
                 } finally {
                     if (stmt != null) {
@@ -266,7 +266,7 @@ public class TimesheetRowManager implements Serializable{
                                 result.getBigDecimal("SatHours"), result.getBigDecimal("SunHours"),
                                 result.getBigDecimal("MonHours"), result.getBigDecimal("TueHours"),
                                 result.getBigDecimal("WedHours"), result.getBigDecimal("ThursHours"),
-                                result.getBigDecimal("FriHours"), result.getString("Notes")));
+                                result.getBigDecimal("FriHours"), result.getString("Notes"),false));
                     }
                 } finally {
                     if (stmt != null) {

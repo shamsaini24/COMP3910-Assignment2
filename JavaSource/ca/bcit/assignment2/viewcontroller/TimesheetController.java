@@ -10,6 +10,7 @@ import javax.inject.Named;
 import ca.bcit.assignment2.access.TimesheetManager;
 import ca.bcit.assignment2.access.TimesheetRowManager;
 import ca.bcit.assignment2.model.TimesheetModel;
+import ca.bcit.assignment2.model.TimesheetRowModel;
 import ca.bcit.infosys.employee.Employee;
 import ca.bcit.infosys.timesheet.Timesheet;
 import ca.bcit.infosys.timesheet.TimesheetCollection;
@@ -22,7 +23,7 @@ import ca.bcit.infosys.timesheet.TimesheetRow;
  * @author Sham, Kang
  *
  */
-public class TimesheetController implements TimesheetCollection{
+public class TimesheetController{
     
     /** Manager for Timesheet objects.*/
     @Inject private TimesheetManager timesheetManager;
@@ -31,15 +32,17 @@ public class TimesheetController implements TimesheetCollection{
     @Inject private TimesheetRowManager timesheetRowManager;
     
     /** Timesheets */
-    List<Timesheet> timesheetList;
+    List<TimesheetModel> timesheetList;
+    
+    /** Timesheets */
+    List<TimesheetRowModel> timesheetRowList;
 
     /**
      * timesheets getter.
      * @return all of the timesheets.
      */
-    @Override
-    public List<Timesheet> getTimesheets() {
-        return Arrays.asList((Timesheet[])timesheetManager.getAll());
+    public List<TimesheetModel> getTimesheets() {
+        return Arrays.asList(timesheetManager.getAll());
     }
 
     /**
@@ -47,9 +50,13 @@ public class TimesheetController implements TimesheetCollection{
      * @param e the employee whose timesheets are returned
      * @return all of the timesheets for an employee.
      */
-    @Override
-    public List<Timesheet> getTimesheets(Employee e) {
-        timesheetList = Arrays.asList((Timesheet[])timesheetManager.getByEmployee(e.getEmpNumber()));
+    public List<TimesheetModel> getTimesheets(Employee e) {
+        TimesheetModel[] tsArr = timesheetManager.getByEmployee(e.getEmpNumber());
+        for(TimesheetModel ts: tsArr) {
+            if(ts.getEmployee().getEmpNumber() == e.getEmpNumber()) {
+                timesheetList.add(ts);
+            }
+        }
         return timesheetList;
     }
 
@@ -58,8 +65,7 @@ public class TimesheetController implements TimesheetCollection{
      * @param e the employee whose current timesheet is returned
      * @return the current timesheet for an employee.
      */
-    @Override
-    public Timesheet getCurrentTimesheet(Employee e) {
+    public TimesheetModel getCurrentTimesheet(Employee e) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -69,7 +75,6 @@ public class TimesheetController implements TimesheetCollection{
      *
      * @return a String representing navigation to the newTimesheet page.
      */
-    @Override
     public String addTimesheet() {
         // TODO Auto-generated method stub
         return null;
@@ -84,10 +89,14 @@ public class TimesheetController implements TimesheetCollection{
         return 0;
     }
     
-    public List<TimesheetRow> getTimesheetRows(int t) {
-        TimesheetRow[] test = timesheetRowManager.getByTimesheet(t);
-        List<TimesheetRow> test2 =  Arrays.asList(test);
-        return test2;
+    public List<TimesheetRowModel> getTimesheetRows(TimesheetModel ts) {
+        TimesheetRowModel[] trArr = timesheetRowManager.getByTimesheet(ts.getTimesheetId());
+        for(TimesheetRowModel tr: trArr) {
+            if(tr.getTimesheetModel().getTimesheetId() == ts.getTimesheetId()) {
+                timesheetRowList.add(tr);
+            }
+        }
+        return timesheetRowList;
     }
     
 }

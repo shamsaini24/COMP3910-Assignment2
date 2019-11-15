@@ -19,6 +19,10 @@ public class TimesheetRowModel extends ca.bcit.infosys.timesheet.TimesheetRow {
      */
     private int timesheetRowId;
     /**
+     * boolean to edit the users
+     */
+    private boolean editable;
+    /**
      * TimesheetRow Constructor
      * @param id
      * @param timesheetModel
@@ -35,12 +39,12 @@ public class TimesheetRowModel extends ca.bcit.infosys.timesheet.TimesheetRow {
      */
     public TimesheetRowModel(int id, TimesheetModel timesheetModel, int projectId, String wp,
             BigDecimal satHour, BigDecimal sunHour, BigDecimal monHour, BigDecimal tueHour, BigDecimal wedHour,
-            BigDecimal thursHour, BigDecimal friHour, String notes) {
+            BigDecimal thursHour, BigDecimal friHour, String notes, boolean editable) {
         // call super to construct parent
         super(projectId, wp, new BigDecimal[]{satHour, sunHour, monHour, tueHour, wedHour, thursHour, friHour}, notes);
         this.timesheetRowId = id;
         this.timesheetModel = timesheetModel;
-        
+        this.editable = editable;
     }
     /**
      * 
@@ -72,5 +76,13 @@ public class TimesheetRowModel extends ca.bcit.infosys.timesheet.TimesheetRow {
      */
     public void setTimesheetRowId(int timesheetRowId) {
         this.timesheetRowId = timesheetRowId;
+    }
+    
+    public boolean isEditable() {
+        return editable;
+    }
+
+    public void setEditable(boolean editable) {
+        this.editable = editable;
     }
 }

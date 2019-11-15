@@ -20,7 +20,7 @@
    		<ui:define name="content">
    			<h:form id="dataview" >
    				<p:dataView widgetVar="dv" var="ts" value="#{timesheet.getTimesheets(employee.getCurrentEmployee())}" rows="1" paginator="true" 
-                paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}" layout="list" paginatorPosition="bottom" first="#{timetable.lastIndex}">
+                paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}" layout="list" paginatorPosition="bottom" first="#{timesheet.lastIndex}">
                 	<f:facet name="header">
 	            		#{msgs.timesheets}
 	       			</f:facet>
@@ -45,13 +45,13 @@
 				                      
 						            <h:column class="column">
 						            	<f:facet name="header">#{msgs.proj}</f:facet>
-						            	<h:inputText class="tableWidth" value="#{row.projectID}" rendered="#{not timesheet.editable}" readonly="true"/>
-						            	<h:inputText class="tableWidth" value="#{row.projectID}" rendered="#{timesheet.editable}"/>
+						            	<h:inputText class="tableWidth" value="#{row.projectID}" rendered="#{not row.editable}" readonly="true"/>
+						            	<h:inputText class="tableWidth" value="#{row.projectID}" rendered="#{row.editable}"/>
 						            </h:column >
 						            <h:column class="column">
 						            	<f:facet name="header">#{msgs.wp}</f:facet>
-						            	<h:inputText class="tableWidth" value="#{row.workPackage}" rendered="#{not timesheet.editable}" readonly="true"/>
-						            	<h:inputText class="tableWidth" value="#{row.workPackage}" rendered="#{timesheet.editable}"/>
+						            	<h:inputText class="tableWidth" value="#{row.workPackage}" rendered="#{not row.editable}" readonly="true"/>
+						            	<h:inputText class="tableWidth" value="#{row.workPackage}" rendered="#{row.editable}"/>
 						            </h:column>
 						            <h:column class="column">
 						            	<f:facet name="header">#{msgs.tol}</f:facet>
@@ -59,43 +59,43 @@
 						            </h:column>
 						            <h:column class="column">
 						            	<f:facet name="header">#{msgs.sat}</f:facet>
-						            	<h:inputText class="tableWidth" value="#{row.getHour(0)}" rendered="#{not timesheet.editable}" readonly="true"/>
-						            	<h:inputText class="tableWidth" value="#{row.hoursForWeek[0]}" rendered="#{timesheet.editable}"/>
+						            	<h:inputText class="tableWidth" value="#{row.getHour(0)}" rendered="#{not row.editable}" readonly="true"/>
+						            	<h:inputText class="tableWidth" value="#{row.hoursForWeek[0]}" rendered="#{row.editable}"/>
 						            </h:column>
 						            <h:column class="column">
 						            	<f:facet name="header">#{msgs.sun}</f:facet>
-						            	<h:inputText class="tableWidth" value="#{row.getHour(1)}" rendered="#{not timesheet.editable}" readonly="true"/>
-						            	<h:inputText class="tableWidth" value="#{row.hoursForWeek[1]}" rendered="#{timesheet.editable}"/>
+						            	<h:inputText class="tableWidth" value="#{row.getHour(1)}" rendered="#{not row.editable}" readonly="true"/>
+						            	<h:inputText class="tableWidth" value="#{row.hoursForWeek[1]}" rendered="#{row.editable}"/>
 						            </h:column>
 						            <h:column class="column">
 						            	<f:facet name="header">#{msgs.mon}</f:facet>
-						            	<h:inputText class="tableWidth" value="#{row.getHour(2)}" rendered="#{not timesheet.editable}" readonly="true"/>
-						            	<h:inputText class="tableWidth" value="#{row.hoursForWeek[2]}" rendered="#{timesheet.editable}"/>
+						            	<h:inputText class="tableWidth" value="#{row.getHour(2)}" rendered="#{not row.editable}" readonly="true"/>
+						            	<h:inputText class="tableWidth" value="#{row.hoursForWeek[2]}" rendered="#{row.editable}"/>
 						            </h:column>
 						            <h:column class="column">
 						            	<f:facet name="header">#{msgs.tue}</f:facet>
-						            	<h:inputText class="tableWidth" value="#{row.getHour(3)}" rendered="#{not timesheet.editable}" readonly="true"/>
-						            	<h:inputText class="tableWidth" value="#{row.hoursForWeek[3]}" rendered="#{timesheet.editable}"/>
+						            	<h:inputText class="tableWidth" value="#{row.getHour(3)}" rendered="#{not row.editable}" readonly="true"/>
+						            	<h:inputText class="tableWidth" value="#{row.hoursForWeek[3]}" rendered="#{row.editable}"/>
 						            </h:column>
 						            <h:column class="column">
 						            	<f:facet name="header">#{msgs.wed}</f:facet>
-						            	<h:inputText class="tableWidth" value="#{row.getHour(4)}" rendered="#{not timesheet.editable}" readonly="true"/>
-						            	<h:inputText class="tableWidth" value="#{row.hoursForWeek[4]}" rendered="#{timesheet.editable}"/>
+						            	<h:inputText class="tableWidth" value="#{row.getHour(4)}" rendered="#{not row.editable}" readonly="true"/>
+						            	<h:inputText class="tableWidth" value="#{row.hoursForWeek[4]}" rendered="#{row.editable}"/>
 						            </h:column>
 						            <h:column class="column">
 						            	<f:facet name="header">#{msgs.thu}</f:facet>
-						            	<h:inputText class="tableWidth" value="#{row.getHour(5)}" rendered="#{not timesheet.editable}" readonly="true"/>
-						            	<h:inputText class="tableWidth" value="#{row.hoursForWeek[5]}" rendered="#{timesheet.editable}"/>
+						            	<h:inputText class="tableWidth" value="#{row.getHour(5)}" rendered="#{not row.editable}" readonly="true"/>
+						            	<h:inputText class="tableWidth" value="#{row.hoursForWeek[5]}" rendered="#{row.editable}"/>
 						            </h:column>
 						            <h:column class="column">
 						            	<f:facet name="header">#{msgs.fri}</f:facet>
-						            	<h:inputText class="tableWidth" value="#{row.getHour(6)}" rendered="#{not timesheet.editable}" readonly="true"/>
-						            	<h:inputText class="tableWidth" value="#{row.hoursForWeek[6]}" rendered="#{timesheet.editable}"/>
+						            	<h:inputText class="tableWidth" value="#{row.getHour(6)}" rendered="#{not row.editable}" readonly="true"/>
+						            	<h:inputText class="tableWidth" value="#{row.hoursForWeek[6]}" rendered="#{row.editable}"/>
 						            </h:column>
 						            <h:column class="column">
 						            	<f:facet name="header">#{msgs.note}</f:facet>
-						            	<h:inputText class="tableWidth" value="#{row.notes}" rendered="#{not timesheet.editable}" readonly="true"/>
-						            	<h:inputText class="tableWidth" value="#{row.notes}" rendered="#{timesheet.editable}"/>
+						            	<h:inputText class="tableWidth" value="#{row.notes}" rendered="#{not row.editable}" readonly="true"/>
+						            	<h:inputText class="tableWidth" value="#{row.notes}" rendered="#{row.editable}"/>
 						            </h:column>
 				         		</h:dataTable>
 				         		<table>
