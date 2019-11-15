@@ -218,7 +218,11 @@ public class TimesheetManager implements Serializable{
         }
 
         TimesheetModel[] timearray = new TimesheetModel[timesheets.size()];
-        return timesheets.toArray(timearray);
+        for(int i = 0; i < timesheets.size(); i++) {
+            timearray[i] = timesheets.get(i);          
+        }
+        
+        return timearray;
     }
 
     /**
@@ -260,7 +264,6 @@ public class TimesheetManager implements Serializable{
             return null;
         }
 
-        TimesheetModel[] timearray = new TimesheetModel[timesheets.size()];
-        return timesheets.toArray(timearray);
+        return (TimesheetModel[]) timesheets.toArray();
     }
 }

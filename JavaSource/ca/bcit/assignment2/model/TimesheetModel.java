@@ -1,7 +1,9 @@
 package ca.bcit.assignment2.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import ca.bcit.infosys.employee.Employee;
+import ca.bcit.infosys.timesheet.TimesheetRow;
 /**
  * TimesheetModel that extends Timesheet in order to create the primary key (timesheetId)
  * and link each TimesheetModel with the Employee
@@ -27,7 +29,7 @@ public class TimesheetModel extends ca.bcit.infosys.timesheet.Timesheet {
      * @param endWeek Date
      */
     public TimesheetModel(int timesheetId, Employee employee, Date endWeek) {
-        super(employee, endWeek);
+        super(employee, endWeek, new ArrayList<TimesheetRow>());
         this.timesheetId = timesheetId;
         this.employee = employee;
         setEndWeek(endWeek);

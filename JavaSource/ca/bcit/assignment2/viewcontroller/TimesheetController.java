@@ -1,5 +1,6 @@
 package ca.bcit.assignment2.viewcontroller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
@@ -8,9 +9,11 @@ import javax.inject.Named;
 
 import ca.bcit.assignment2.access.TimesheetManager;
 import ca.bcit.assignment2.access.TimesheetRowManager;
+import ca.bcit.assignment2.model.TimesheetModel;
 import ca.bcit.infosys.employee.Employee;
 import ca.bcit.infosys.timesheet.Timesheet;
 import ca.bcit.infosys.timesheet.TimesheetCollection;
+import ca.bcit.infosys.timesheet.TimesheetRow;
 
 @Named("timesheet")
 @SessionScoped
@@ -28,9 +31,7 @@ public class TimesheetController implements TimesheetCollection{
     @Inject private TimesheetRowManager timesheetRowManager;
     
     /** Timesheets */
-    List<TimesheetManager> timesheetList;
-    /** Timesheet Details */
-    List<TimesheetRowManager> timesheetRowlist;
+    List<Timesheet> timesheetList;
 
     /**
      * timesheets getter.
@@ -48,8 +49,8 @@ public class TimesheetController implements TimesheetCollection{
      */
     @Override
     public List<Timesheet> getTimesheets(Employee e) {
-        System.out.println("getting timesheets");
-        return Arrays.asList((Timesheet[])timesheetManager.getByEmployee(e.getEmpNumber()));
+        timesheetList = Arrays.asList((Timesheet[])timesheetManager.getByEmployee(e.getEmpNumber()));
+        return timesheetList;
     }
 
     /**
@@ -81,6 +82,12 @@ public class TimesheetController implements TimesheetCollection{
         if(timesheetList != null)
             return timesheetList.size() -1;
         return 0;
+    }
+    
+    public List<TimesheetRow> getTimesheetRows(int t) {
+        TimesheetRow[] test = timesheetRowManager.getByTimesheet(t);
+        List<TimesheetRow> test2 =  Arrays.asList(test);
+        return test2;
     }
     
 }

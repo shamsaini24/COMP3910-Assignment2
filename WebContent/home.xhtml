@@ -19,7 +19,7 @@
          
    		<ui:define name="content">
    			<h:form id="dataview" >
-   				<p:dataView widgetVar="dv" var="timesheet" value="#{timesheet.getTimesheets(employee.getCurrentEmployee())}" rows="1" paginator="true" 
+   				<p:dataView widgetVar="dv" var="ts" value="#{timesheet.getTimesheets(employee.getCurrentEmployee())}" rows="1" paginator="true" 
                 paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}" layout="list" paginatorPosition="bottom" first="#{timetable.lastIndex}">
                 	<f:facet name="header">
 	            		#{msgs.timesheets}
@@ -36,11 +36,11 @@
 		   				<!-- Current week, and end day -->
 				   				<h:panelGrid columns="2" style="margin: -46px 0 0 500px; font-weight: bold">
 				   					#{msgs.week}
-				   					<h:outputText value="#{timesheet.weekNumber}" />
+				   					<h:outputText value="#{ts.weekNumber}" />
 				   					#{msgs.weekend}
-				   					<h:outputText value="#{timesheet.weekEnding}" />
+				   					<h:outputText value="#{ts.weekEnding}" />
 				   				</h:panelGrid>
-				   				<h:dataTable value="#{timesheet.details}" class="datatable"
+				   				<h:dataTable value="#{timesheet.getTimesheetRows(ts)}" class="datatable"
 				                      var="row" headerClass="timesheetHeader" border="1" cellpadding="4" cellspacing="0">
 				                      
 						            <h:column class="column">
@@ -104,40 +104,35 @@
 				         					<h:outputText value="#{msgs.tol}"/>
 				         				</td>
 				         				<td class="table">
-				         					<h:outputText value="#{timesheet.totalHours}"/>
+				         					<h:outputText value="#{ts.totalHours}"/>
 				         				</td>
 				         				<td class="table">
-				         					<h:outputText value="#{timesheet.dailyHours[0]}"/>
+				         					<h:outputText value="#{ts.dailyHours[0]}"/>
 				         				</td>
 				         				<td class="table">
-				         					<h:outputText value="#{timesheet.dailyHours[1]}"/>
+				         					<h:outputText value="#{ts.dailyHours[1]}"/>
 				         				</td>
 				         				<td class="table">
-				         					<h:outputText value="#{timesheet.dailyHours[2]}"/>
+				         					<h:outputText value="#{ts.dailyHours[2]}"/>
 				         				</td>
 				         				<td class="table">
-				         					<h:outputText value="#{timesheet.dailyHours[3]}"/>
+				         					<h:outputText value="#{ts.dailyHours[3]}"/>
 				         				</td>
 				         				<td class="table">
-				         					<h:outputText value="#{timesheet.dailyHours[4]}"/>
+				         					<h:outputText value="#{ts.dailyHours[4]}"/>
 				         				</td>
 				         				<td class="table">
-				         					<h:outputText value="#{timesheet.dailyHours[5]}"/>
+				         					<h:outputText value="#{ts.dailyHours[5]}"/>
 				         				</td>
 				         				<td class="table">
-				         					<h:outputText value="#{timesheet.dailyHours[6]}"/>
+				         					<h:outputText value="#{ts.dailyHours[6]}"/>
 				         				</td>
 				         			</tr>
 				         		</table>
 	                		</p:outputPanel>
             			</h:panelGrid>
         			
-    		    <h:commandButton action="#{timetable.save(timesheet)}" value="Save" rendered="#{timesheet.editable}" />
-    		    <h:commandButton action="#{timesheet.addRow}" value="Add row" rendered="#{timesheet.editable}" />
-    		    <h:commandButton action="#{timetable.addTimesheet}"
-    		value="#{msgs.edit}" rendered="#{(timetable.getCurrentTimesheet(employee.currentEmployee) == timesheet)}"/>
-    		    <p:commandButton action="#{timetable.addTimesheet}" update="dataview" oncomplete="PF('dv').paginator.setPage(PF('dv').paginator.cfg.pageCount - 1);" 
-    		value="#{msgs.createview}" rendered="#{timetable.getCurrentTimesheet(employee.currentEmployee) != timesheet}"/>
+    		    <!-- buttons here --> 
     		
     		
         			</p:dataViewListItem>
