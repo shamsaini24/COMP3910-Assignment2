@@ -113,8 +113,9 @@ public class EmployeeController implements EmployeeList {
 
     @Override
     public void deleteEmployee(Employee userToDelete) {
+        credentialManager.remove(credentialManager.find(userToDelete.getEmpNumber()));
         employeeManager.remove(userToDelete);
-        credentialManager.remove(creds);
+        refreshList();
     }
 
     @Override
@@ -126,9 +127,14 @@ public class EmployeeController implements EmployeeList {
      * creates new employee and adds it to the database
      */
     public void createEmployee() {
-        EmployeeDetail empD = new EmployeeDetail();
+        Employee[] empList = employeeManager.getAll();
+        int lastEmpNum = empList[empList.length-1].getEmpNumber();
+        EmployeeModel empD = new EmployeeModel("NewUser" + lastEmpNum+1, lastEmpNum+1, "NewUser" + lastEmpNum+1);
         empD.setEditable(true);
         addEmployee(empD);
+        CredentialsModel newCred = new CredentialsModel(empD, "NewUser" + empD.getEmpNumber(), "defaultPassword");
+        credentialManager.persist(newCred);
+        refreshList();
     }
 
     /**

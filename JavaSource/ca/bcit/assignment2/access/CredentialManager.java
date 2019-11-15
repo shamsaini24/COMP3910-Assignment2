@@ -158,8 +158,8 @@ public class CredentialManager implements Serializable{
                 connection = ds.getConnection();
                 try {
                     stmt = connection.prepareStatement(
-                            "DELETE FROM Credentials WHERE EmpNum =  ?");
-                    stmt.setInt(1, credential.getEmployee().getEmpNumber());
+                            "DELETE FROM Credentials WHERE EmpUsername =  ?");
+                    stmt.setString(1, credential.getUserName());
                     stmt.executeUpdate();
                 } finally {
                     if (stmt != null) {

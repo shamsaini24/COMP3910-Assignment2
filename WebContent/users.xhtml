@@ -26,9 +26,8 @@
 		                  <h:outputText value="#{msgs.empNum}" 
 		                                style="font-weight: bold"/>
 		               </f:facet>
-		               <h:inputText value="#{user.empNumber}" rendered="#{user.editable}" 
-		                            size="10"/>
-		               <h:outputText value="#{user.empNumber}" rendered="#{not user.editable}"/>
+		               
+		               <h:outputText value="#{user.empNumber}"/>
 		            </h:column>
 		            <h:column>
 		               <f:facet name="header">

@@ -195,7 +195,7 @@ public class EmployeeManager implements Serializable{
                 connection = ds.getConnection();
                 try {
                     stmt = connection.prepareStatement(
-                            "DELETE FROM Employees WHERE EmpNo =  ?");
+                            "DELETE FROM Employees WHERE EmpNum =  ?");
                     stmt.setInt(1, employee.getEmpNumber());
                     stmt.executeUpdate();
                 } finally {
