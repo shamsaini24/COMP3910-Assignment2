@@ -40,7 +40,7 @@
 				   					#{msgs.weekend}
 				   					<h:outputText value="#{time.weekEnding}" />
 				   				</h:panelGrid>
-				   				<h:dataTable value="#{timesheetrow.getTimesheetRows(time)}" class="datatable"
+				   				<h:dataTable value="#{timesheet.getTimesheetRows(time)}" class="datatable"
 				                      var="row" headerClass="timesheetHeader" border="1" cellpadding="4" cellspacing="0">
 				                      
 						            <h:column class="column">
@@ -104,28 +104,28 @@
 				         					<h:outputText value="#{msgs.tol}"/>
 				         				</td>
 				         				<td class="table">
-				         					<h:outputText value="#{time.totalHours}"/>
+				         					<h:outputText value="#{timesheet.totalHours}"/>
 				         				</td>
 				         				<td class="table">
-				         					<h:outputText value="#{time.dailyHours[0]}"/>
+				         					<h:outputText value="#{timesheet.dailyHours[0]}"/>
 				         				</td>
 				         				<td class="table">
-				         					<h:outputText value="#{time.dailyHours[1]}"/>
+				         					<h:outputText value="#{timesheet.dailyHours[1]}"/>
 				         				</td>
 				         				<td class="table">
-				         					<h:outputText value="#{time.dailyHours[2]}"/>
+				         					<h:outputText value="#{timesheet.dailyHours[2]}"/>
 				         				</td>
 				         				<td class="table">
-				         					<h:outputText value="#{time.dailyHours[3]}"/>
+				         					<h:outputText value="#{timesheet.dailyHours[3]}"/>
 				         				</td>
 				         				<td class="table">
-				         					<h:outputText value="#{time.dailyHours[4]}"/>
+				         					<h:outputText value="#{timesheet.dailyHours[4]}"/>
 				         				</td>
 				         				<td class="table">
-				         					<h:outputText value="#{time.dailyHours[5]}"/>
+				         					<h:outputText value="#{timesheet.dailyHours[5]}"/>
 				         				</td>
 				         				<td class="table">
-				         					<h:outputText value="#{time.dailyHours[6]}"/>
+				         					<h:outputText value="#{timesheet.dailyHours[6]}"/>
 				         				</td>
 				         			</tr>
 				         		</table>
@@ -133,8 +133,8 @@
             			</h:panelGrid>
         			
     		    <!-- buttons here --> 
-    		
-    		
+    					<p:commandButton action="#{timesheet.addTimesheet(employee.getCurrentEmployee())}" update="dataview" oncomplete="PF('dv').paginator.setPage(PF('dv').paginator.cfg.pageCount - 1);"
+    					value="#{msgs.createview}" rendered="#{timesheet.getCurrentTimesheet(employee.currentEmployee) != time}" />
         			</p:dataViewListItem>
     			</p:dataView>
     		</h:form>

@@ -20,6 +20,10 @@ public class TimesheetModel extends ca.bcit.infosys.timesheet.Timesheet {
      * primary key timesheetId
      */
     private int timesheetId;
+    /**
+     * boolean to edit the users
+     */
+    private boolean editable;
     
     
     /**
@@ -28,11 +32,12 @@ public class TimesheetModel extends ca.bcit.infosys.timesheet.Timesheet {
      * @param timesheetId int
      * @param endWeek Date
      */
-    public TimesheetModel(int timesheetId, Employee employee, Date endWeek) {
+    public TimesheetModel(int timesheetId, Employee employee, Date endWeek, boolean editable) {
         super(employee, endWeek, new ArrayList<TimesheetRow>());
         this.timesheetId = timesheetId;
         this.employee = employee;
         setEndWeek(endWeek);
+        this.editable = editable;
     }
     
     public TimesheetModel() {
@@ -68,5 +73,20 @@ public class TimesheetModel extends ca.bcit.infosys.timesheet.Timesheet {
      */
     public void setTimesheetId(int timesheetId) {
         this.timesheetId = timesheetId;
+    }
+    /**
+     * 
+     * @return editable a boolean
+     */
+    public boolean isEditable() {
+        return editable;
+    }
+    
+    /**
+     * 
+     * @param editable boolean
+     */
+    public void setEditable(boolean editable) {
+        this.editable = editable;
     }
 }

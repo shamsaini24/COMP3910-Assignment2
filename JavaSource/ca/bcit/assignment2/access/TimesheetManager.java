@@ -49,7 +49,7 @@ public class TimesheetManager implements Serializable{
                     if (result.next()) {
                         return new TimesheetModel(result.getInt("TimesheetId"),
                                 employeeManager.find(result.getInt("EmpNum")), 
-                                result.getDate("EndWeek"));
+                                result.getDate("EndWeek"), false);
                     } else {
                         return null;
                     }
@@ -199,7 +199,7 @@ public class TimesheetManager implements Serializable{
                                 result.getInt("TimesheetId"),
                                 employeeManager.find(
                                         result.getInt("EmpNum")),
-                                        result.getDate("EndWeek")));
+                                        result.getDate("EndWeek"), false));
                     }
                 } finally {
                     if (stmt != null) {
@@ -245,7 +245,7 @@ public class TimesheetManager implements Serializable{
                         timesheets.add(new TimesheetModel(
                                 result.getInt("TimesheetId"), 
                                 employeeManager.find(result.getInt("EmpNum")),
-                                result.getDate("EndWeek")));
+                                result.getDate("EndWeek"), false));
                     }
                 } finally {
                     if (stmt != null) {

@@ -129,7 +129,7 @@ public class EmployeeController implements EmployeeList {
     public void createEmployee() {
         Employee[] empList = employeeManager.getAll();
         int lastEmpNum = empList[empList.length-1].getEmpNumber();
-        EmployeeModel empD = new EmployeeModel("NewUser" + lastEmpNum+1, lastEmpNum+1, "NewUser" + lastEmpNum+1);
+        EmployeeModel empD = new EmployeeModel("NewUser" + (lastEmpNum+1), lastEmpNum+1, "NewUser" + (lastEmpNum+1));
         empD.setEditable(true);
         addEmployee(empD);
         CredentialsModel newCred = new CredentialsModel(empD, "NewUser" + empD.getEmpNumber(), "defaultPassword");
