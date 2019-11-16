@@ -35,6 +35,9 @@ public class TimesheetController implements Serializable{
     /** Number of days in a week. */
     public static final int DAYS_IN_WEEK = 7;
     
+    /** Default 5 rows when creating new timesheet. */
+    public static final int DEFAULT_ROW = 5;
+    
     /** Timesheets */
     List<TimesheetModel> timesheetList;
     
@@ -44,10 +47,6 @@ public class TimesheetController implements Serializable{
     /** Timesheets */
     List<TimesheetRowModel> timesheetRowList;
     
-    
-    
-    
-
     /**
      * timesheets getter.
      * @return all of the timesheets.
@@ -79,10 +78,12 @@ public class TimesheetController implements Serializable{
      * @return the current timesheet for an employee.
      */
     public TimesheetModel getCurrentTimesheet(Employee e) {
+        System.out.println("getting current timesheet");
         TimesheetModel t = new TimesheetModel();
         for(int i = 0; i < timesheetList.size(); i++) {
             if(calculateCurrentEndWeek() == timesheetList.get(i).getEndWeek()) {
                 t = timesheetList.get(i);
+                System.out.println("found current timesheet");
             }
         }
         t.setEditable(true);
@@ -96,13 +97,25 @@ public class TimesheetController implements Serializable{
      */
     public String addTimesheet(Employee e) {
         boolean found = false;
-        for(TimesheetModel t: timesheetList) {
-            if(t.getWeekNumber() == ts.getWeekNumber()) {
+        for(int i = 0; i < timesheetList.size(); i++) {
+            if(calculateCurrentEndWeek() == timesheetList.get(i).getEndWeek()) {
                 found = true;
+                System.out.println("current week timesheet already exist");
             }
         }
         if(!found) {
-            timesheetList.add(ts);
+            int newsheetId = timesheetManager.getAll().length;
+            int newrowId = timesheetRowManager.getAll().length;
+            TimesheetModel t = new TimesheetModel(newsheetId, e, calculateCurrentEndWeek(), true);
+            timesheetManager.persist(t);
+            timesheetList.add(t);
+            // adding 5 empty rows
+            for(int i = 0; i < DEFAULT_ROW; i++) {
+                TimesheetRowModel r = new TimesheetRowModel((newrowId + i), t, 0, "", null, null, null, null, null, null, null, "");
+                timesheetRowManager.persist(r);
+                timesheetRowList.add(r);
+            }
+            System.out.println("Add current timesheet");
         }
         return null;
     }
@@ -177,4 +190,15 @@ public class TimesheetController implements Serializable{
         c.add(Calendar.DATE, leftDays);
         return c.getTime();
     }
+    
+    /**
+     * add a row on current timesheet
+     */
+    public void addRow(Employee e) {
+        int newrowId = timesheetRowManager.getAll().length;
+        TimesheetRowModel r = new TimesheetRowModel(newrowId, getCurrentTimesheet(e), 0, "", null, null, null, null, null, null, null, "");
+        timesheetRowManager.persist(r);
+        timesheetRowList.add(r);
+    }
+    
 }
