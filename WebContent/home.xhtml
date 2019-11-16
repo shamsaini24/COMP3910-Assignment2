@@ -46,7 +46,7 @@
 						            <h:column class="column">
 						            	<f:facet name="header">#{msgs.proj}</f:facet>
 						            	<h:inputText class="tableWidth" value="#{row.projectID}" rendered="#{not time.editable}" readonly="true"/>
-						            	<h:inputText class="tableWidth" value="#{row.projectID}" rendered="#{timeeditable}"/>
+						            	<h:inputText class="tableWidth" value="#{row.projectID}" rendered="#{time.editable}"/>
 						            </h:column >
 						            <h:column class="column">
 						            	<f:facet name="header">#{msgs.wp}</f:facet>
@@ -134,9 +134,9 @@
         			
     		    <!-- buttons here --> 
     		    		<!-- Save Button for current week -->
-    		    		<h:commandButton  value="Save" rendered="#{timesheet.editable}" />
+    		    		<h:commandButton  value="Save" rendered="#{time.editable}" />
     		    		<!-- Add Row Button for this week -->
-    		    		<h:commandButton action="#{timesheet.addRow(employee.currentEmployee)}" value="Add row" rendered="#{timesheet.editable}" />   		   		 
+    		    		<h:commandButton action="#{timesheet.addRow(employee.currentEmployee)}" value="Add row" rendered="#{time.editable}" />   		   		 
     					<p:commandButton action="#{timesheet.addTimesheet(employee.getCurrentEmployee())}" update="dataview" oncomplete="PF('dv').paginator.setPage(PF('dv').paginator.cfg.pageCount - 1);"
     						value="#{msgs.createview}" rendered="#{timesheet.getCurrentTimesheet(employee.currentEmployee) != time}" />
         			</p:dataViewListItem>

@@ -12,7 +12,10 @@ import java.util.ArrayList;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.sql.DataSource;
+
+import ca.bcit.assignment2.model.EmployeeModel;
 import ca.bcit.assignment2.model.TimesheetModel;
+import ca.bcit.infosys.timesheet.Timesheet;
 
 /**
  * Handel CRUD actions for Timesheets class
@@ -87,7 +90,7 @@ public class TimesheetManager implements Serializable{
                             "INSERT INTO Timesheets VALUES (?, ?, ?)");
                     stmt.setInt(1, timesheet.getTimesheetId());
                     stmt.setInt(2, timesheet.getEmployee().getEmpNumber());
-                    stmt.setDate(3, (Date) timesheet.getEndWeek());
+                    stmt.setDate(3, new java.sql.Date(timesheet.getEndWeek().getTime()));
                     stmt.executeUpdate();
                 } finally {
                     if (stmt != null) {
@@ -230,7 +233,7 @@ public class TimesheetManager implements Serializable{
      * 
      * @return TimesheetModel[] of all records in Timesheets table
      */
-    public TimesheetModel[] getAll() {
+    public Timesheet[] getAll() {
         Connection connection = null;        
         ArrayList<TimesheetModel> timesheets = new ArrayList<TimesheetModel>();
         Statement stmt = null;
@@ -264,6 +267,7 @@ public class TimesheetManager implements Serializable{
             return null;
         }
 
-        return (TimesheetModel[]) timesheets.toArray();
+        TimesheetModel[] timesheetArray = new TimesheetModel[timesheets.size()];
+        return timesheets.toArray(timesheetArray);
     }
 }
