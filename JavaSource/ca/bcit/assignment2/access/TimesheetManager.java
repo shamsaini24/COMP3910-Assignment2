@@ -2,20 +2,15 @@ package ca.bcit.assignment2.access;
 
 import java.io.Serializable;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.sql.DataSource;
-
-import ca.bcit.assignment2.model.EmployeeModel;
 import ca.bcit.assignment2.model.TimesheetModel;
-import ca.bcit.infosys.timesheet.Timesheet;
 
 /**
  * Handel CRUD actions for Timesheets class
@@ -52,7 +47,7 @@ public class TimesheetManager implements Serializable{
                     if (result.next()) {
                         return new TimesheetModel(result.getInt("TimesheetId"),
                                 employeeManager.find(result.getInt("EmpNum")), 
-                                result.getDate("EndWeek"), false);
+                                result.getDate("EndWeek"));
                     } else {
                         return null;
                     }
@@ -126,7 +121,7 @@ public class TimesheetManager implements Serializable{
                                     + ", EndWeek = ?"
                                     + " WHERE TimesheetId = ?");
                     stmt.setInt(1, timesheet.getEmployee().getEmpNumber());
-                    stmt.setDate(2, (Date) timesheet.getEndWeek());
+                    stmt.setDate(2, new java.sql.Date(timesheet.getEndWeek().getTime()));
                     stmt.setInt(3, timesheet.getTimesheetId());
                     stmt.executeUpdate();
                 } finally {
@@ -202,7 +197,7 @@ public class TimesheetManager implements Serializable{
                                 result.getInt("TimesheetId"),
                                 employeeManager.find(
                                         result.getInt("EmpNum")),
-                                        result.getDate("EndWeek"), false));
+                                        result.getDate("EndWeek")));
                     }
                 } finally {
                     if (stmt != null) {
@@ -233,7 +228,7 @@ public class TimesheetManager implements Serializable{
      * 
      * @return TimesheetModel[] of all records in Timesheets table
      */
-    public Timesheet[] getAll() {
+    public TimesheetModel[] getAll() {
         Connection connection = null;        
         ArrayList<TimesheetModel> timesheets = new ArrayList<TimesheetModel>();
         Statement stmt = null;
@@ -248,7 +243,7 @@ public class TimesheetManager implements Serializable{
                         timesheets.add(new TimesheetModel(
                                 result.getInt("TimesheetId"), 
                                 employeeManager.find(result.getInt("EmpNum")),
-                                result.getDate("EndWeek"), false));
+                                result.getDate("EndWeek")));
                     }
                 } finally {
                     if (stmt != null) {

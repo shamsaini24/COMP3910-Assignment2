@@ -17,7 +17,6 @@ import ca.bcit.assignment2.access.TimesheetRowManager;
 import ca.bcit.assignment2.model.TimesheetModel;
 import ca.bcit.assignment2.model.TimesheetRowModel;
 import ca.bcit.infosys.employee.Employee;
-import ca.bcit.infosys.timesheet.TimesheetRow;
 
 @Named("timesheet")
 @SessionScoped
@@ -65,11 +64,12 @@ public class TimesheetController implements Serializable{
         TimesheetModel[] tsArr = timesheetManager.getByEmployee(e.getEmpNumber());
         for(TimesheetModel ts: tsArr) {
             if(ts.getEmployee().getEmpNumber() == e.getEmpNumber()) {
-                System.out.println(ts.getWeekEnding() + " " + ts.getWeekNumber());
                 timesheetList.add(ts);
             }
         }
-        System.out.println(timesheetList.get(0).getTimesheetId());
+        if(timesheetList.size() == 0) {
+        	addTimesheet(e);
+        }
         return timesheetList;
     }
     /**
@@ -78,15 +78,16 @@ public class TimesheetController implements Serializable{
      * @return the current timesheet for an employee.
      */
     public TimesheetModel getCurrentTimesheet(Employee e) {
-        System.out.println("getting current timesheet");
         TimesheetModel t = new TimesheetModel();
         for(int i = 0; i < timesheetList.size(); i++) {
-            if(calculateCurrentEndWeek() == timesheetList.get(i).getEndWeek()) {
-                t = timesheetList.get(i);
-                System.out.println("found current timesheet");
+            if(calculateCurrentEndWeek().getYear() == timesheetList.get(i).getEndWeek().getYear()) {
+                if(calculateCurrentEndWeek().getMonth() == timesheetList.get(i).getEndWeek().getMonth()) {
+                    if(calculateCurrentEndWeek().getDay() == timesheetList.get(i).getEndWeek().getDay()) {
+                        t = timesheetList.get(i);
+                    }
+                }
             }
         }
-        t.setEditable(true);
         return t;
     }
 
@@ -95,18 +96,23 @@ public class TimesheetController implements Serializable{
      *
      * @return a String representing navigation to the newTimesheet page.
      */
+    @SuppressWarnings("deprecation")
     public String addTimesheet(Employee e) {
         boolean found = false;
         for(int i = 0; i < timesheetList.size(); i++) {
-            if(calculateCurrentEndWeek() == timesheetList.get(i).getEndWeek()) {
-                found = true;
-                System.out.println("current week timesheet already exist");
+            if(calculateCurrentEndWeek().getYear() == timesheetList.get(i).getEndWeek().getYear()) {
+                if(calculateCurrentEndWeek().getMonth() == timesheetList.get(i).getEndWeek().getMonth()) {
+                    if(calculateCurrentEndWeek().getDay() == timesheetList.get(i).getEndWeek().getDay()) {
+                        found = true;
+                        return null;
+                    }
+                }
             }
         }
         if(!found) {
             int newsheetId = timesheetManager.getAll().length;
             int newrowId = timesheetRowManager.getAll().length;
-            TimesheetModel t = new TimesheetModel(newsheetId, e, calculateCurrentEndWeek(), true);
+            TimesheetModel t = new TimesheetModel(newsheetId, e, calculateCurrentEndWeek());
             timesheetManager.persist(t);
             timesheetList.add(t);
             // adding 5 empty rows
@@ -115,8 +121,9 @@ public class TimesheetController implements Serializable{
                 timesheetRowManager.persist(r);
                 timesheetRowList.add(r);
             }
-            System.out.println("Add current timesheet");
         }
+        refreshtimesheetList(e);
+        refreshtimesheetRowList(getCurrentTimesheet(e));
         return null;
     }
     /**
@@ -196,9 +203,52 @@ public class TimesheetController implements Serializable{
      */
     public void addRow(Employee e) {
         int newrowId = timesheetRowManager.getAll().length;
+        System.out.println(newrowId);
         TimesheetRowModel r = new TimesheetRowModel(newrowId, getCurrentTimesheet(e), 0, "", null, null, null, null, null, null, null, "");
         timesheetRowManager.persist(r);
         timesheetRowList.add(r);
+        refreshtimesheetRowList(getCurrentTimesheet(e));
     }
     
+    /**
+     * save the timesheetrows and update into database after editting 
+     */
+    public void save(TimesheetModel t) {
+    	for(int i = 0; i < timesheetRowList.size(); i++) {
+    		timesheetRowManager.merge(timesheetRowList.get(i));
+    	}
+    }
+    
+    /**
+     * refresh timesheet List
+     * @param e
+     */
+    public void refreshtimesheetList(Employee e) {
+        timesheetList = getTimesheets(e);
+    }
+    
+    /**
+     * refresh timesheetRow list
+     * @param tm
+     */
+    public void refreshtimesheetRowList(TimesheetModel tm) {
+        timesheetRowList = getTimesheetRows(tm);
+    }
+    
+    /**
+     * 
+     */
+    @SuppressWarnings("deprecation")
+    public boolean isCurrent(Employee e, TimesheetModel ts) {
+        TimesheetModel cur = getCurrentTimesheet(e);
+        
+        if(cur.getEndWeek().getYear() == ts.getEndWeek().getYear()) {
+            if(cur.getEndWeek().getMonth() == ts.getEndWeek().getMonth()) {
+                if(cur.getEndWeek().getDay() == ts.getEndWeek().getDay()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
