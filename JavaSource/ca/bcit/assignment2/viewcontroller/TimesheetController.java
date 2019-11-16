@@ -1,5 +1,6 @@
 package ca.bcit.assignment2.viewcontroller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,13 +9,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import ca.bcit.assignment2.access.TimesheetManager;
-import ca.bcit.assignment2.access.TimesheetRowManager;
 import ca.bcit.assignment2.model.TimesheetModel;
-import ca.bcit.assignment2.model.TimesheetRowModel;
 import ca.bcit.infosys.employee.Employee;
-import ca.bcit.infosys.timesheet.Timesheet;
-import ca.bcit.infosys.timesheet.TimesheetCollection;
-import ca.bcit.infosys.timesheet.TimesheetRow;
 
 @Named("timesheet")
 @SessionScoped
@@ -23,19 +19,19 @@ import ca.bcit.infosys.timesheet.TimesheetRow;
  * @author Sham, Kang
  *
  */
-public class TimesheetController{
-    
+public class TimesheetController implements Serializable{
+    private static final long serialVersionUID = 1L;
+
     /** Manager for Timesheet objects.*/
     @Inject private TimesheetManager timesheetManager;
     
-    /** Manager for TimesheetRow objects.*/
-    @Inject private TimesheetRowManager timesheetRowManager;
+    
     
     /** Timesheets */
     List<TimesheetModel> timesheetList;
     
-    /** Timesheets */
-    List<TimesheetRowModel> timesheetRowList;
+    
+    
 
     /**
      * timesheets getter.
@@ -51,15 +47,17 @@ public class TimesheetController{
      * @return all of the timesheets for an employee.
      */
     public List<TimesheetModel> getTimesheets(Employee e) {
+        timesheetList = new ArrayList<TimesheetModel>();
         TimesheetModel[] tsArr = timesheetManager.getByEmployee(e.getEmpNumber());
         for(TimesheetModel ts: tsArr) {
             if(ts.getEmployee().getEmpNumber() == e.getEmpNumber()) {
+                System.out.println(ts.getWeekEnding() + " " + ts.getWeekNumber());
                 timesheetList.add(ts);
             }
         }
+        System.out.println(timesheetList.get(0).getTimesheetId());
         return timesheetList;
     }
-
     /**
      * get current timesheet for an employee.
      * @param e the employee whose current timesheet is returned
@@ -87,16 +85,6 @@ public class TimesheetController{
         if(timesheetList != null)
             return timesheetList.size() -1;
         return 0;
-    }
-    
-    public List<TimesheetRowModel> getTimesheetRows(TimesheetModel ts) {
-        TimesheetRowModel[] trArr = timesheetRowManager.getByTimesheet(ts.getTimesheetId());
-        for(TimesheetRowModel tr: trArr) {
-            if(tr.getTimesheetModel().getTimesheetId() == ts.getTimesheetId()) {
-                timesheetRowList.add(tr);
-            }
-        }
-        return timesheetRowList;
     }
     
 }

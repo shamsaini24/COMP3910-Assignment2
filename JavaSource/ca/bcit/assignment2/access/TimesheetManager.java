@@ -19,8 +19,8 @@ import ca.bcit.assignment2.model.TimesheetModel;
  * @author Sham, Kang
  *
  */
+
 public class TimesheetManager implements Serializable{
-    private static final long serialVersionUID = 1L;
 
     /** dataSource for connection pool on JBoss AS 7 or higher. */
     @Resource(mappedName = "java:jboss/datasources/employeeTimesheet")
