@@ -1,12 +1,8 @@
 package ca.bcit.assignment2.viewcontroller;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -23,7 +19,9 @@ import ca.bcit.infosys.employee.EmployeeList;
 @SessionScoped
 
 /**
- * bean that talks to the templates and defines the employee
+ *  bean that talks to the templates and defines the employee
+ * @author Sham, Kang
+ *
  */
 public class EmployeeController implements EmployeeList {
     
@@ -33,6 +31,7 @@ public class EmployeeController implements EmployeeList {
     /** Manager for Credential objects.*/
     @Inject private CredentialManager credentialManager;
     
+    /** List to store all employees */
     List<Employee> employeeList;
     
     /**
@@ -45,26 +44,48 @@ public class EmployeeController implements EmployeeList {
      */
     private EmployeeModel currentEmployee = new EmployeeModel();
     
-    
+    /**
+     * employees getter.
+     * @return the ArrayList of users.
+     */
     public List<Employee> getEmployees() {
         return Arrays.asList(employeeManager.getAll());
     }
 
+    /**
+     * Returns employee with a given name.
+     * @param name the name field of the employee
+     * @return the employees.
+     */
     @Override
     public Employee getEmployee(String username) {
         return employeeManager.find(username);
     }
 
+    /**
+     * Returns employee with a given name.
+     * @param name the name field of the employee
+     * @return the employees.
+     */
     @Override
     public Map<String, String> getLoginCombos() {
-        return credentials;
+        return null;
     }
 
+    /**
+     * getter for currentEmployee property.  
+     * @return the current user.
+     */
     @Override
     public Employee getCurrentEmployee() {
         return currentEmployee;
     }
 
+    /**
+     * Assumes single administrator and returns the employee object
+     * of that administrator.
+     * @return the administrator user object.
+     */
     @Override
     public Employee getAdministrator() {
         return employeeManager.find("admin");
@@ -87,6 +108,12 @@ public class EmployeeController implements EmployeeList {
         }
     }
 
+    /**
+     * Verifies that the loginID and password is a valid combination.
+     *
+     * @param credential (userName, Password) pair
+     * @return true if it is, false if it is not.
+     */
     @Override
     public boolean verifyUser(Credentials credential) {
         String name = credential.getUserName();
@@ -104,6 +131,12 @@ public class EmployeeController implements EmployeeList {
         }
     }
 
+    /**
+     * Logs the user out of the system.
+     *
+     * @param employee the user to logout.
+     * @return a String representing the login page.
+     */
     @Override
     public String logout(Employee employee) {
         currentEmployee.setLoggedIn(false);
@@ -111,6 +144,11 @@ public class EmployeeController implements EmployeeList {
         return "login";
     }
 
+    /**
+     * Deletes the specified user from the collection of Users.
+     *
+     * @param userToDelete the user to delete.
+     */
     @Override
     public void deleteEmployee(Employee userToDelete) {
         credentialManager.remove(credentialManager.find(userToDelete.getEmpNumber()));
@@ -118,6 +156,10 @@ public class EmployeeController implements EmployeeList {
         refreshList();
     }
 
+    /**
+     * Adds a new Employee to the collection of Employees.
+     * @param newEmployee the employee to add to the collection
+     */
     @Override
     public void addEmployee(Employee newEmployee) {
        employeeManager.persist(newEmployee);
@@ -201,23 +243,21 @@ public class EmployeeController implements EmployeeList {
         CredentialsModel newCred = new CredentialsModel(employeeManager.find(em.getEmpNumber()), em.getUserName(), password);
         credentialManager.merge(newCred);
         employeeManager.merge((EmployeeModel)em);
-        
-//        for(Iterator<Map.Entry<String, String>> it = credentials.entrySet().iterator(); it.hasNext(); ) {
-//            Map.Entry<String, String> entry = it.next();
-//            boolean found = false;
-//            for (Employee e : employees) {
-//                if (e.getUserName() == entry.getKey()) {
-//                    found = true;
-//                }
-//            }
-//        }
         return null;
     }
 
+    /**
+     * set the current Employee
+     * @param currentEmployee
+     */
     public void setCurrentEmployee(EmployeeModel currentEmployee) {
         this.currentEmployee = currentEmployee;
     }
 
+    /**
+     * get the employee list
+     * @return
+     */
     public List<Employee> getEmployeeList() {
         if(employeeList == null) {
             refreshList();
@@ -225,14 +265,18 @@ public class EmployeeController implements EmployeeList {
         return employeeList;
     }
     
+    /**
+     * refresh the list to show on the table
+     */
     public void refreshList() {
         employeeList = getEmployees();
     }
 
+    /**
+     * set the employee list
+     * @param employeeList
+     */
     public void setEmployeeList(List<Employee> employeeList) {
         this.employeeList = employeeList;
     }
-    
-    
-
 }

@@ -236,7 +236,10 @@ public class TimesheetController implements Serializable{
     }
     
     /**
-     * 
+     * check if the time sheet is the current time sheet
+     * @param e Employee
+     * @param ts TimesheetModel
+     * @return boolean
      */
     @SuppressWarnings("deprecation")
     public boolean isCurrent(Employee e, TimesheetModel ts) {

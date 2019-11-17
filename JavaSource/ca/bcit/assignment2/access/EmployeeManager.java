@@ -9,13 +9,16 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.annotation.Resource;
-import javax.enterprise.context.SessionScoped;
 import javax.sql.DataSource;
 
 import ca.bcit.assignment2.model.EmployeeModel;
 import ca.bcit.infosys.employee.Employee;
 
-@SessionScoped
+/**
+ * Handel CRUD actions for Employee class
+ * @author Sham, Kang
+ *
+ */
 public class EmployeeManager implements Serializable{
     private static final long serialVersionUID = 1L;
 

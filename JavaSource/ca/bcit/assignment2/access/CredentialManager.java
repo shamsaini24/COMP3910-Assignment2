@@ -7,15 +7,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
 import javax.annotation.Resource;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.sql.DataSource;
 
 import ca.bcit.assignment2.model.CredentialsModel;
 
-@SessionScoped
+/**
+ * Handel CRUD actions for Credentials class
+ * @author Sham, Kang
+ *
+ */
 public class CredentialManager implements Serializable{
     private static final long serialVersionUID = 1L;
 

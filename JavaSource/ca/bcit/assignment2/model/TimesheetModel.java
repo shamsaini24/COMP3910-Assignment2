@@ -35,6 +35,9 @@ public class TimesheetModel extends ca.bcit.infosys.timesheet.Timesheet {
         setEndWeek(endWeek);
     }
     
+    /**
+     * Default constructor
+     */
     public TimesheetModel() {
         super();
         employee = new Employee();

@@ -3,6 +3,11 @@ package ca.bcit.assignment2.model;
 import ca.bcit.infosys.employee.Credentials;
 import ca.bcit.infosys.employee.Employee;
 
+/**
+ * EmployeeModel extends Employee to add in the primary key and editable
+ * @author Sham, Kang
+ *
+ */
 public class EmployeeModel extends ca.bcit.infosys.employee.Employee{
     /**
      * boolean to tell us if the employee is admin
@@ -37,6 +42,9 @@ public class EmployeeModel extends ca.bcit.infosys.employee.Employee{
         setEditable(false);
     }
     
+    /**
+     * Default constructor to set everything to default
+     */
     public EmployeeModel () {
         super();
         setAdmin(false);
@@ -44,6 +52,10 @@ public class EmployeeModel extends ca.bcit.infosys.employee.Employee{
         setEditable(false);
     }
     
+    /**
+     * Constructor to set the admin logged in user 
+     * @param emp
+     */
     public EmployeeModel(Employee emp) {
         super(emp.getName(), emp.getEmpNumber(), emp.getUserName());
         if(emp.getUserName().equals("admin")) {
@@ -55,37 +67,67 @@ public class EmployeeModel extends ca.bcit.infosys.employee.Employee{
         setEditable(false);
     }
 
+    /**
+     * check if logged in user is admin
+     * @return boolean
+     */
     public boolean isAdmin() {
         return admin;
     }
 
+    /**
+     * set the admin
+     * @param admin
+     */
     public void setAdmin(boolean admin) {
         this.admin = admin;
     }
 
+    /**
+     * check if any employee logged in 
+     * @return boolean
+     */
     public boolean isLoggedIn() {
         return loggedIn;
     }
 
+    /**
+     * set the logged in
+     * @param loggedIn
+     */
     public void setLoggedIn(boolean loggedIn) {
         this.loggedIn = loggedIn;
     }
 
+    /**
+     * check if the fields are editable
+     * @return
+     */
     public boolean isEditable() {
         return editable;
     }
 
+    /**
+     * set the editable
+     * @param editable
+     */
     public void setEditable(boolean editable) {
         this.editable = editable;
     }
 
+    /**
+     * get the credentials 
+     * @return Credentials
+     */
     public Credentials getCreds() {
         return creds;
     }
 
+    /**
+     * set the credentials
+     * @param creds
+     */
     public void setCreds(Credentials creds) {
         this.creds = creds;
     }
-    
-    
 }

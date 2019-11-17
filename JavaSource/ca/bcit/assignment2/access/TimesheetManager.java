@@ -17,7 +17,6 @@ import ca.bcit.assignment2.model.TimesheetModel;
  * @author Sham, Kang
  *
  */
-
 public class TimesheetManager implements Serializable{
 
     /** dataSource for connection pool on JBoss AS 7 or higher. */
