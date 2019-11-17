@@ -13,11 +13,11 @@ import javax.sql.DataSource;
 import ca.bcit.assignment2.model.TimesheetModel;
 
 /**
- * Handel CRUD actions for Timesheets class
+ * Handel CRUD actions for Timesheets class.
  * @author Sham, Kang
- *
+ * @version 1.0
  */
-public class TimesheetManager implements Serializable{
+public class TimesheetManager implements Serializable {
 
     /** dataSource for connection pool on JBoss AS 7 or higher. */
     @Resource(mappedName = "java:jboss/datasources/employeeTimesheet")
@@ -84,7 +84,8 @@ public class TimesheetManager implements Serializable{
                             "INSERT INTO Timesheets VALUES (?, ?, ?)");
                     stmt.setInt(1, timesheet.getTimesheetId());
                     stmt.setInt(2, timesheet.getEmployee().getEmpNumber());
-                    stmt.setDate(3, new java.sql.Date(timesheet.getEndWeek().getTime()));
+                    stmt.setDate(3, new java.sql.Date(
+                            timesheet.getEndWeek().getTime()));
                     stmt.executeUpdate();
                 } finally {
                     if (stmt != null) {
@@ -120,7 +121,8 @@ public class TimesheetManager implements Serializable{
                                     + ", EndWeek = ?"
                                     + " WHERE TimesheetId = ?");
                     stmt.setInt(1, timesheet.getEmployee().getEmpNumber());
-                    stmt.setDate(2, new java.sql.Date(timesheet.getEndWeek().getTime()));
+                    stmt.setDate(2, new java.sql.Date(
+                            timesheet.getEndWeek().getTime()));
                     stmt.setInt(3, timesheet.getTimesheetId());
                     stmt.executeUpdate();
                 } finally {
@@ -175,7 +177,8 @@ public class TimesheetManager implements Serializable{
     /**
      * Return Timesheet table for a given employee.
      * 
-     * @return TimesheetModel[] of all records of a given employee from Timesheet table
+     * @return TimesheetModel[] of all records of a given employee
+     *  from Timesheet table
      * @param empNum the ID of the employee to select
      */
     public TimesheetModel[] getByEmployee(int empNum) {
@@ -215,7 +218,7 @@ public class TimesheetManager implements Serializable{
         }
 
         TimesheetModel[] timearray = new TimesheetModel[timesheets.size()];
-        for(int i = 0; i < timesheets.size(); i++) {
+        for (int i = 0; i < timesheets.size(); i++) {
             timearray[i] = timesheets.get(i);          
         }
         

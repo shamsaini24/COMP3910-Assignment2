@@ -31,16 +31,16 @@ public class EmployeeController implements EmployeeList {
     /** Manager for Credential objects.*/
     @Inject private CredentialManager credentialManager;
     
-    /** List to store all employees */
+    /** List to store all employees. */
     List<Employee> employeeList;
     
     /**
-     * reference to the credentials of the current user
+     * reference to the credentials of the current user.
      */
     private CredentialsModel creds = new CredentialsModel();
     
     /**
-     * reference to the current user
+     * reference to the current user.
      */
     private EmployeeModel currentEmployee = new EmployeeModel();
     
@@ -54,7 +54,7 @@ public class EmployeeController implements EmployeeList {
 
     /**
      * Returns employee with a given name.
-     * @param name the name field of the employee
+     * @param username the name field of the employee
      * @return the employees.
      */
     @Override
@@ -64,7 +64,6 @@ public class EmployeeController implements EmployeeList {
 
     /**
      * Returns employee with a given name.
-     * @param name the name field of the employee
      * @return the employees.
      */
     @Override
@@ -92,11 +91,11 @@ public class EmployeeController implements EmployeeList {
     }
     
     /**
-     * login method that logs the user in
-     * @return
+     * login method that logs the user in.
+     * @return String
      */
     public String login() {
-        if (verifyUser(creds) == true) {
+        if (verifyUser(creds)) {
             String name = creds.getUserName();
             currentEmployee = new EmployeeModel(employeeManager.find(name));
             System.out.println("in here");
@@ -120,12 +119,13 @@ public class EmployeeController implements EmployeeList {
         String password = credential.getPassword();
         System.out.println(password);
         Employee loginEmployee = employeeManager.find(name);
-        if(loginEmployee == null) {
+        if (loginEmployee == null) {
             return false;
         }
         int loginNum = loginEmployee.getEmpNumber();
         if (credentialManager.find(loginNum) != null) {
-            return credentialManager.find(loginEmployee.getEmpNumber()).getPassword().equals(password);
+            return credentialManager.find(loginEmployee.getEmpNumber())
+                    .getPassword().equals(password);
         } else {
             return false;
         }
@@ -151,7 +151,8 @@ public class EmployeeController implements EmployeeList {
      */
     @Override
     public void deleteEmployee(Employee userToDelete) {
-        credentialManager.remove(credentialManager.find(userToDelete.getEmpNumber()));
+        credentialManager.remove(credentialManager.
+                find(userToDelete.getEmpNumber()));
         employeeManager.remove(userToDelete);
         refreshList();
     }
@@ -166,50 +167,53 @@ public class EmployeeController implements EmployeeList {
     }
     
     /**
-     * creates new employee and adds it to the database
+     * creates new employee and adds it to the database.
      */
     public void createEmployee() {
         Employee[] empList = employeeManager.getAll();
-        int lastEmpNum = empList[empList.length-1].getEmpNumber();
-        EmployeeModel empD = new EmployeeModel("NewUser" + (lastEmpNum+1), lastEmpNum+1, "NewUser" + (lastEmpNum+1));
+        int lastEmpNum = empList[empList.length - 1].getEmpNumber();
+        EmployeeModel empD = new EmployeeModel("NewUser" + (lastEmpNum + 1),
+                lastEmpNum + 1, "NewUser" + (lastEmpNum + 1));
         empD.setEditable(true);
         addEmployee(empD);
-        CredentialsModel newCred = new CredentialsModel(empD, "NewUser" + empD.getEmpNumber(), "defaultPassword");
+        CredentialsModel newCred = new CredentialsModel(
+                empD, "NewUser" + empD.getEmpNumber(), "defaultPassword");
         credentialManager.persist(newCred);
         refreshList();
     }
 
     /**
-     * setter for the creds of the current user
-     * @param creds
+     * setter for the creds of the current user.
+     * @param creds CredentialsModel
      */
     public void setCreds(CredentialsModel creds) {
         this.creds = creds;
     }
     
     /**
-     * getter for the creds of the current user
-     * @return
+     * getter for the creds of the current user.
+     * @return creds
      */
     public CredentialsModel getCreds() {
         return this.creds;
     }
     
     /**
-     * getter for the password of the current user,
-     * @param em
-     * @return
+     * getter for the password of the current user.
+     * @param em Employee
+     * @return String
      */
     public String getPassword(Employee em) {
         return credentialManager.find(em.getEmpNumber()).getPassword();
     }
     
     /**
-     * setter for the password once the users changes it, replaces update statement
-     * @param old
-     * @param newPass
-     * @param repeat
-     * @return
+     * setter for the password once the users changes it, replaces 
+     * update statement.
+     * @param old String
+     * @param newPass String
+     * @param repeat String
+     * @return String
      */
     public String changePassword(String old, String newPass, String repeat) {
         Employee em = getCurrentEmployee();
@@ -227,54 +231,55 @@ public class EmployeeController implements EmployeeList {
     }
 
     /**
-     * saves the new employee to the database
-     * @param em
-     * @param password
-     * @return
+     * saves the new employee to the database.
+     * @param em Employee
+     * @param password String
+     * @return String
      */
     public String save(Employee em, String password) {
         if (password.length() < 1 || password == null) {
             System.out.println("password is not legible");
-            password = ((EmployeeModel)em).getCreds().getPassword();
+            password = ((EmployeeModel) em).getCreds().getPassword();
         }
         System.out.println("Password" + password);
         System.out.println("Username" + em.getUserName());
-        ((EmployeeModel)em).setEditable(false);
-        CredentialsModel newCred = new CredentialsModel(employeeManager.find(em.getEmpNumber()), em.getUserName(), password);
+        ((EmployeeModel) em).setEditable(false);
+        CredentialsModel newCred = new CredentialsModel(employeeManager.
+                find(em.getEmpNumber()), em.getUserName(), password);
         credentialManager.merge(newCred);
-        employeeManager.merge((EmployeeModel)em);
+        employeeManager.merge((EmployeeModel) em);
         return null;
     }
 
     /**
-     * set the current Employee
-     * @param currentEmployee
+     * set the current Employee.
+     * @param currentEmployee EmployeeModel
      */
     public void setCurrentEmployee(EmployeeModel currentEmployee) {
         this.currentEmployee = currentEmployee;
     }
 
     /**
-     * get the employee list
-     * @return
+     * get the employee list.
+     * @return List<Employee>
      */
     public List<Employee> getEmployeeList() {
-        if(employeeList == null) {
+        if (employeeList == null) {
             refreshList();
         }
         return employeeList;
     }
     
     /**
-     * refresh the list to show on the table
+     * refresh the list to show on the table.
      */
     public void refreshList() {
         employeeList = getEmployees();
     }
 
     /**
-     * set the employee list
-     * @param employeeList
+     * set the employee list.
+     * @param employeeList List<Employee>
      */
     public void setEmployeeList(List<Employee> employeeList) {
         this.employeeList = employeeList;

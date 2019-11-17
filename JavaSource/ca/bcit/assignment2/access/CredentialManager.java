@@ -16,9 +16,9 @@ import ca.bcit.assignment2.model.CredentialsModel;
 /**
  * Handel CRUD actions for Credentials class
  * @author Sham, Kang
- *
+ * @version 1.0
  */
-public class CredentialManager implements Serializable{
+public class CredentialManager implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /** dataSource for connection pool on JBoss AS 7 or higher. */
@@ -186,7 +186,8 @@ public class CredentialManager implements Serializable{
      */
     public CredentialsModel[] getAll() {
         Connection connection = null;        
-        ArrayList<CredentialsModel> categories = new ArrayList<CredentialsModel>();
+        ArrayList<CredentialsModel> categories =
+                new ArrayList<CredentialsModel>();
         Statement stmt = null;
         try {
             try {
@@ -197,7 +198,8 @@ public class CredentialManager implements Serializable{
                             "SELECT * FROM Credentials ORDER BY EmpNum");
                     while (result.next()) {
                         categories.add(new CredentialsModel(
-                                employeeManager.find(result.getString("EmpUsername")), 
+                                employeeManager.find(result.
+                                        getString("EmpUsername")), 
                                 result.getString("EmpUsername"),
                                 result.getString("EmpPassword")));
                     }

@@ -3,24 +3,25 @@ package ca.bcit.assignment2.model;
 import java.math.BigDecimal;
 
 /**
- * TimesheetRowModel that extends TimesheetRow in order to create the primary key (timesheetRowId)
+ * TimesheetRowModel that extends TimesheetRow in order to create the
+ *  primary key (timesheetRowId).
  * and link each TimesheetRowModel with the Timesheet
  * @author Sham, Kang
- *
+ * @version 1.0
  */
 public class TimesheetRowModel extends ca.bcit.infosys.timesheet.TimesheetRow {
 
-    /*
-     * TimesheetModel wons the timesheetrow
+    /**
+     * TimesheetModel wons the timesheetrow.
      */
     private TimesheetModel timesheetModel;
-    /*
-     * primary key for each timesheetrow
+    /**
+     * primary key for each timesheetrow.
      */
     private int timesheetRowId;
    
     /**
-     * TimesheetRow Constructor
+     * TimesheetRow Constructor.
      * @param id
      * @param timesheetModel
      * @param projectId
@@ -34,16 +35,18 @@ public class TimesheetRowModel extends ca.bcit.infosys.timesheet.TimesheetRow {
      * @param friHour
      * @param notes
      */
-    public TimesheetRowModel(int id, TimesheetModel timesheetModel, int projectId, String wp,
-            BigDecimal satHour, BigDecimal sunHour, BigDecimal monHour, BigDecimal tueHour, BigDecimal wedHour,
+    public TimesheetRowModel(int id, TimesheetModel timesheetModel,
+            int projectId, String wp, BigDecimal satHour, BigDecimal sunHour,
+            BigDecimal monHour, BigDecimal tueHour, BigDecimal wedHour,
             BigDecimal thursHour, BigDecimal friHour, String notes) {
         // call super to construct parent
-        super(projectId, wp, new BigDecimal[]{satHour, sunHour, monHour, tueHour, wedHour, thursHour, friHour}, notes);
+        super(projectId, wp, new BigDecimal[]{satHour, sunHour, monHour,
+                tueHour, wedHour, thursHour, friHour}, notes);
         this.timesheetRowId = id;
         this.timesheetModel = timesheetModel;
     }
     /**
-     * 
+     * Getter for timesheetModel.
      * @return timesheetModel
      */
     public TimesheetModel getTimesheetModel() {
@@ -51,7 +54,7 @@ public class TimesheetRowModel extends ca.bcit.infosys.timesheet.TimesheetRow {
     }
     
     /**
-     * 
+     * Setter for timesheetModel.
      * @param timesheetModel TimesheetModel
      */
     public void setTimesheetModel(TimesheetModel timesheetModel) {
@@ -59,7 +62,7 @@ public class TimesheetRowModel extends ca.bcit.infosys.timesheet.TimesheetRow {
     }
     
     /**
-     * 
+     * Getter for timesheetRowId.
      * @return timesheetRowId
      */
     public int getTimesheetRowId() {
@@ -67,7 +70,7 @@ public class TimesheetRowModel extends ca.bcit.infosys.timesheet.TimesheetRow {
     }
     
     /**
-     * 
+     * Setter for timesheetRowId.
      * @param timesheetRowId int
      */
     public void setTimesheetRowId(int timesheetRowId) {

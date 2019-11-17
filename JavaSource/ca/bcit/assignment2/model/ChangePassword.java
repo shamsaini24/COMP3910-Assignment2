@@ -12,63 +12,63 @@ import javax.inject.Named;
  */
 public class ChangePassword {
     /**
-     * field for old password
+     * field for old password.
      */
     private String oldPassword;
     
     /**
-     * field for new password
+     * field for new password.
      */
     private String newPassword;
     
     /**
-     * field for new password repeated
+     * field for new password repeated.
      */
     private String repeatPassword;
 
     /**
-     * getter for oldPassword
-     * @return
+     * getter for oldPassword.
+     * @return oldPassword
      */
     public String getOldPassword() {
         return oldPassword;
     }
 
     /**
-     * Setter for oldPasswrod
-     * @param oldPassword
+     * Setter for oldPasswrod.
+     * @param oldPassword String
      */
     public void setOldPassword(String oldPassword) {
         this.oldPassword = oldPassword;
     }
 
     /**
-     * getter for newPassword
-     * @return
+     * getter for newPassword.
+     * @return newPassword
      */
     public String getNewPassword() {
         return newPassword;
     }
 
     /**
-     * getter for newPassword
-     * @return
+     * getter for newPassword.
+     * @param newPassword String
      */
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
     }
 
     /**
-     * getter for repeatPassword
-     * @return
+     * getter for repeatPassword.
+     * @return repeatPassword
      */
     public String getRepeatPassword() {
         return repeatPassword;
     }
 
     /**
-     * getter for repeatPassword
-     * @return
+     * getter for repeatPassword.
+     * @param repeatPassword String
      */
     public void setRepeatPassword(String repeatPassword) {
         this.repeatPassword = repeatPassword;

@@ -15,11 +15,11 @@ import ca.bcit.assignment2.model.EmployeeModel;
 import ca.bcit.infosys.employee.Employee;
 
 /**
- * Handel CRUD actions for Employee class
+ * Handel CRUD actions for Employee class.
  * @author Sham, Kang
- *
+ * @version 1.0
  */
-public class EmployeeManager implements Serializable{
+public class EmployeeManager implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /** dataSource for connection pool on JBoss AS 7 or higher. */
@@ -29,7 +29,7 @@ public class EmployeeManager implements Serializable{
     /**
      * Find Employee record from database.
      * 
-     * @param id
+     * @param username
      *            primary key for record.
      * @return the Employee record with key = id, null if not found.
      */
@@ -45,7 +45,8 @@ public class EmployeeManager implements Serializable{
                             .executeQuery("SELECT * FROM Employees "
                                     + "where EmpUsername = '" + username + "'");
                     if (result.next()) {
-                        return new EmployeeModel(result.getString("EmpName"), result.getInt("EmpNum"),
+                        return new EmployeeModel(result.getString("EmpName"),
+                                result.getInt("EmpNum"),
                                 result.getString("EmpUsername"));
                     } else {
                         return null;
@@ -87,7 +88,9 @@ public class EmployeeManager implements Serializable{
                             .executeQuery("SELECT * FROM Employees "
                                     + "where EmpNum = '" + id + "'");
                     if (result.next()) {
-                        return new EmployeeModel(result.getString("EmpName"), result.getInt("EmpNum"),
+                        return new EmployeeModel(
+                                result.getString("EmpName"),
+                                result.getInt("EmpNum"),
                                 result.getString("EmpUsername"));
                     } else {
                         return null;

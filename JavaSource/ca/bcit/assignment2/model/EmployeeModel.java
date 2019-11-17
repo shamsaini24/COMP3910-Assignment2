@@ -4,29 +4,29 @@ import ca.bcit.infosys.employee.Credentials;
 import ca.bcit.infosys.employee.Employee;
 
 /**
- * EmployeeModel extends Employee to add in the primary key and editable
+ * EmployeeModel extends Employee to add in the primary key and editable.
  * @author Sham, Kang
- *
+ * @version 1.0
  */
-public class EmployeeModel extends ca.bcit.infosys.employee.Employee{
+public class EmployeeModel extends ca.bcit.infosys.employee.Employee {
     /**
-     * boolean to tell us if the employee is admin
+     * boolean to tell us if the employee is admin.
      */
     private boolean admin;
     
     /**
-     * boolean that tells us if the employee is logged in
+     * boolean that tells us if the employee is logged in.
      */
     private boolean loggedIn;
     
     /**
-     * boolean to edit the users
+     * boolean to edit the users.
      */
     private boolean editable;
     
     Credentials creds = new Credentials();
     /**
-     * The argument-containing constructor. Used to create the initial employees
+     * The argument-containing constructor. Used to create the initial employees.
      * who have access as well as the administrator.
      *
      * @param empName the name of the employee.
@@ -43,7 +43,7 @@ public class EmployeeModel extends ca.bcit.infosys.employee.Employee{
     }
     
     /**
-     * Default constructor to set everything to default
+     * Default constructor to set everything to default.
      */
     public EmployeeModel () {
         super();
@@ -53,12 +53,12 @@ public class EmployeeModel extends ca.bcit.infosys.employee.Employee{
     }
     
     /**
-     * Constructor to set the admin logged in user 
-     * @param emp
+     * Constructor to set the admin logged in user.
+     * @param emp Employee
      */
     public EmployeeModel(Employee emp) {
         super(emp.getName(), emp.getEmpNumber(), emp.getUserName());
-        if(emp.getUserName().equals("admin")) {
+        if (emp.getUserName().equals("admin")) {
             setAdmin(true);
         } else {
             setAdmin(false);
@@ -68,7 +68,7 @@ public class EmployeeModel extends ca.bcit.infosys.employee.Employee{
     }
 
     /**
-     * check if logged in user is admin
+     * check if logged in user is admin.
      * @return boolean
      */
     public boolean isAdmin() {
@@ -76,15 +76,15 @@ public class EmployeeModel extends ca.bcit.infosys.employee.Employee{
     }
 
     /**
-     * set the admin
-     * @param admin
+     * set the admin.
+     * @param admin boolean
      */
     public void setAdmin(boolean admin) {
         this.admin = admin;
     }
 
     /**
-     * check if any employee logged in 
+     * check if any employee logged in.
      * @return boolean
      */
     public boolean isLoggedIn() {
@@ -92,31 +92,31 @@ public class EmployeeModel extends ca.bcit.infosys.employee.Employee{
     }
 
     /**
-     * set the logged in
-     * @param loggedIn
+     * set the logged in.
+     * @param loggedIn boolean
      */
     public void setLoggedIn(boolean loggedIn) {
         this.loggedIn = loggedIn;
     }
 
     /**
-     * check if the fields are editable
-     * @return
+     * check if the fields are editable.
+     * @return editable
      */
     public boolean isEditable() {
         return editable;
     }
 
     /**
-     * set the editable
-     * @param editable
+     * set the editable.
+     * @param editable boolean
      */
     public void setEditable(boolean editable) {
         this.editable = editable;
     }
 
     /**
-     * get the credentials 
+     * get the credentials.
      * @return Credentials
      */
     public Credentials getCreds() {
@@ -124,8 +124,8 @@ public class EmployeeModel extends ca.bcit.infosys.employee.Employee{
     }
 
     /**
-     * set the credentials
-     * @param creds
+     * set the credentials.
+     * @param creds Credentials
      */
     public void setCreds(Credentials creds) {
         this.creds = creds;

@@ -5,25 +5,26 @@ import java.util.Date;
 import ca.bcit.infosys.employee.Employee;
 import ca.bcit.infosys.timesheet.TimesheetRow;
 /**
- * TimesheetModel that extends Timesheet in order to create the primary key (timesheetId)
+ * TimesheetModel that extends Timesheet in order to create the
+ *  primary key (timesheetId).
  * and link each TimesheetModel with the Employee
  * @author Sham, Kang
- *
+ * @version 1.0
  */
 public class TimesheetModel extends ca.bcit.infosys.timesheet.Timesheet {
 
-    /*
-     * Employee that owns this timesheet
+    /**
+     * Employee that owns this timesheet.
      */
     private Employee employee;
-    /*
-     * primary key timesheetId
+    /**
+     * primary key timesheetId.
      */
     private int timesheetId;
     
     
     /**
-     * Constructing TimesheetModel
+     * Constructing TimesheetModel.
      * @param employee Employee
      * @param timesheetId int
      * @param endWeek Date
@@ -36,7 +37,7 @@ public class TimesheetModel extends ca.bcit.infosys.timesheet.Timesheet {
     }
     
     /**
-     * Default constructor
+     * Default constructor.
      */
     public TimesheetModel() {
         super();
@@ -44,30 +45,32 @@ public class TimesheetModel extends ca.bcit.infosys.timesheet.Timesheet {
     }
     
     /**
-     * @return employee
+     * Getter for employee.
+     * @return employee.
      */
     public Employee getEmployee() {
         return employee;
     }
     
     /**
-     * @param the employee to set employee
+     * setter for employee.
+     * @param employee EmployeeModel.
      */
     public void setEmployee(EmployeeModel employee) {
         this.employee = employee;
     }
     
     /**
-     * 
-     * @return the timesheetId 
+     * getter for timesheetId.
+     * @return the timesheetId.
      */
     public int getTimesheetId() {
         return timesheetId;
     }
     
     /**
-     * 
-     * @param timesheetId to set the timesheetId
+     * Setter for timesheetId.
+     * @param timesheetId to set the timesheetId.
      */
     public void setTimesheetId(int timesheetId) {
         this.timesheetId = timesheetId;

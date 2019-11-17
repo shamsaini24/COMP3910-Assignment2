@@ -13,11 +13,12 @@ import javax.sql.DataSource;
 import ca.bcit.assignment2.model.TimesheetRowModel;
 
 /**
- * Handel CRUD actions for TimesheetRows class
+ * Handel CRUD actions for TimesheetRows class.
  * @author Sham, Kang
+ * @version 1.0
  *
  */
-public class TimesheetRowManager implements Serializable{
+public class TimesheetRowManager implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /** dataSource for connection pool on JBoss AS 7 or higher. */
@@ -45,13 +46,20 @@ public class TimesheetRowManager implements Serializable{
                             .executeQuery("SELECT * FROM TimesheetRows "
                                     + "where TimesheetRowId = '" + id + "'");
                     if (result.next()) {
-                        return new TimesheetRowModel(result.getInt("TimesheetRowId"),
-                                timesheetManager.find(result.getInt("TimesheetId")), 
-                                result.getInt("ProjectID"), result.getString("WorkPackage"),
-                                result.getBigDecimal("SatHours"), result.getBigDecimal("SunHours"),
-                                result.getBigDecimal("MonHours"), result.getBigDecimal("TueHours"),
-                                result.getBigDecimal("WedHours"), result.getBigDecimal("ThursHours"),
-                                result.getBigDecimal("FriHours"), result.getString("Notes"));
+                        return new TimesheetRowModel(result.
+                                getInt("TimesheetRowId"),
+                                timesheetManager.find(result.
+                                        getInt("TimesheetId")), 
+                                result.getInt("ProjectID"),
+                                result.getString("WorkPackage"),
+                                result.getBigDecimal("SatHours"),
+                                result.getBigDecimal("SunHours"),
+                                result.getBigDecimal("MonHours"),
+                                result.getBigDecimal("TueHours"),
+                                result.getBigDecimal("WedHours"),
+                                result.getBigDecimal("ThursHours"),
+                                result.getBigDecimal("FriHours"),
+                                result.getString("Notes"));
                     } else {
                         return null;
                     }
@@ -198,11 +206,13 @@ public class TimesheetRowManager implements Serializable{
     /**
      * Return TimesheetRows table for a given timesheet.
      * 
-     * @return TimesheetRowModel[] of all records of a given timesheet from TimesheetRows table
+     * @return TimesheetRowModel[] of all records of a given timesheet
+     *  from TimesheetRows table
      * @param timesheetId the ID of the timesheet to select
      */
     public TimesheetRowModel[] getByTimesheet(int timesheetId) {
-        ArrayList<TimesheetRowModel> timesheetRows = new ArrayList<TimesheetRowModel>();
+        ArrayList<TimesheetRowModel> timesheetRows =
+                new ArrayList<TimesheetRowModel>();
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
@@ -217,11 +227,16 @@ public class TimesheetRowManager implements Serializable{
                     while (result.next()) {
                         timesheetRows.add(new TimesheetRowModel(result.getInt("TimesheetRowId"),
                                 timesheetManager.find(result.getInt("TimesheetId")), 
-                                result.getInt("ProjectID"), result.getString("WorkPackage"),
-                                result.getBigDecimal("SatHours"), result.getBigDecimal("SunHours"),
-                                result.getBigDecimal("MonHours"), result.getBigDecimal("TueHours"),
-                                result.getBigDecimal("WedHours"), result.getBigDecimal("ThursHours"),
-                                result.getBigDecimal("FriHours"), result.getString("Notes")));
+                                result.getInt("ProjectID"),
+                                result.getString("WorkPackage"),
+                                result.getBigDecimal("SatHours"),
+                                result.getBigDecimal("SunHours"),
+                                result.getBigDecimal("MonHours"),
+                                result.getBigDecimal("TueHours"),
+                                result.getBigDecimal("WedHours"),
+                                result.getBigDecimal("ThursHours"),
+                                result.getBigDecimal("FriHours"),
+                                result.getString("Notes")));
                     }
                 } finally {
                     if (stmt != null) {
@@ -239,7 +254,8 @@ public class TimesheetRowManager implements Serializable{
             return null;
         }
 
-        TimesheetRowModel[] timeRowarray = new TimesheetRowModel[timesheetRows.size()];
+        TimesheetRowModel[] timeRowarray =
+                new TimesheetRowModel[timesheetRows.size()];
         return timesheetRows.toArray(timeRowarray);
     }
 
@@ -250,7 +266,8 @@ public class TimesheetRowManager implements Serializable{
      */
     public TimesheetRowModel[] getAll() {
         Connection connection = null;        
-        ArrayList<TimesheetRowModel> timesheetRows = new ArrayList<TimesheetRowModel>();
+        ArrayList<TimesheetRowModel> timesheetRows =
+                new ArrayList<TimesheetRowModel>();
         Statement stmt = null;
         try {
             try {
@@ -260,13 +277,20 @@ public class TimesheetRowManager implements Serializable{
                     ResultSet result = stmt.executeQuery(
                             "SELECT * FROM TimesheetRows ORDER BY TimesheetRowId");
                     while (result.next()) {
-                        timesheetRows.add(new TimesheetRowModel(result.getInt("TimesheetRowId"),
-                                timesheetManager.find(result.getInt("TimesheetId")), 
-                                result.getInt("ProjectID"), result.getString("WorkPackage"),
-                                result.getBigDecimal("SatHours"), result.getBigDecimal("SunHours"),
-                                result.getBigDecimal("MonHours"), result.getBigDecimal("TueHours"),
-                                result.getBigDecimal("WedHours"), result.getBigDecimal("ThursHours"),
-                                result.getBigDecimal("FriHours"), result.getString("Notes")));
+                        timesheetRows.add(new TimesheetRowModel(
+                                result.getInt("TimesheetRowId"),
+                                timesheetManager.find(result.
+                                        getInt("TimesheetId")), 
+                                result.getInt("ProjectID"),
+                                result.getString("WorkPackage"),
+                                result.getBigDecimal("SatHours"),
+                                result.getBigDecimal("SunHours"),
+                                result.getBigDecimal("MonHours"),
+                                result.getBigDecimal("TueHours"),
+                                result.getBigDecimal("WedHours"),
+                                result.getBigDecimal("ThursHours"),
+                                result.getBigDecimal("FriHours"),
+                                result.getString("Notes")));
                     }
                 } finally {
                     if (stmt != null) {
@@ -285,8 +309,8 @@ public class TimesheetRowManager implements Serializable{
             return null;
         }
 
-        TimesheetRowModel[] timeRowarray = new TimesheetRowModel[timesheetRows.size()];
+        TimesheetRowModel[] timeRowarray =
+                new TimesheetRowModel[timesheetRows.size()];
         return timesheetRows.toArray(timeRowarray);
     }
 }
-

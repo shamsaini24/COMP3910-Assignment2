@@ -23,7 +23,7 @@ import ca.bcit.infosys.employee.Employee;
 /**
  * Bean that talks to the templates and defines the timesheet
  * @author Sham, Kang
- *
+ * @version 1.0
  */
 public class TimesheetController implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -37,13 +37,13 @@ public class TimesheetController implements Serializable{
     /** Default 5 rows when creating new timesheet. */
     public static final int DEFAULT_ROW = 5;
     
-    /** Timesheets */
+    /** Timesheets. */
     List<TimesheetModel> timesheetList;
     
     /** Manager for TimesheetRow objects.*/
     @Inject private TimesheetRowManager timesheetRowManager;
     
-    /** Timesheets */
+    /** Timesheet Rows. */
     List<TimesheetRowModel> timesheetRowList;
     
     /**
@@ -61,14 +61,15 @@ public class TimesheetController implements Serializable{
      */
     public List<TimesheetModel> getTimesheets(Employee e) {
         timesheetList = new ArrayList<TimesheetModel>();
-        TimesheetModel[] tsArr = timesheetManager.getByEmployee(e.getEmpNumber());
-        for(TimesheetModel ts: tsArr) {
-            if(ts.getEmployee().getEmpNumber() == e.getEmpNumber()) {
+        TimesheetModel[] tsArr = timesheetManager.getByEmployee(
+                e.getEmpNumber());
+        for (TimesheetModel ts: tsArr) {
+            if (ts.getEmployee().getEmpNumber() == e.getEmpNumber()) {
                 timesheetList.add(ts);
             }
         }
-        if(timesheetList.size() == 0) {
-        	addTimesheet(e);
+        if (timesheetList.size() == 0) {
+            addTimesheet(e);
         }
         return timesheetList;
     }
@@ -79,10 +80,13 @@ public class TimesheetController implements Serializable{
      */
     public TimesheetModel getCurrentTimesheet(Employee e) {
         TimesheetModel t = new TimesheetModel();
-        for(int i = 0; i < timesheetList.size(); i++) {
-            if(calculateCurrentEndWeek().getYear() == timesheetList.get(i).getEndWeek().getYear()) {
-                if(calculateCurrentEndWeek().getMonth() == timesheetList.get(i).getEndWeek().getMonth()) {
-                    if(calculateCurrentEndWeek().getDay() == timesheetList.get(i).getEndWeek().getDay()) {
+        for (int i = 0; i < timesheetList.size(); i++) {
+            if (calculateCurrentEndWeek().getYear() 
+                    == timesheetList.get(i).getEndWeek().getYear()) {
+                if (calculateCurrentEndWeek().getMonth() 
+                        == timesheetList.get(i).getEndWeek().getMonth()) {
+                    if (calculateCurrentEndWeek().getDay() 
+                            == timesheetList.get(i).getEndWeek().getDay()) {
                         t = timesheetList.get(i);
                     }
                 }
@@ -95,29 +99,35 @@ public class TimesheetController implements Serializable{
      * Creates a Timesheet object and adds it to the collection.
      *
      * @return a String representing navigation to the newTimesheet page.
+     * @param e Employee
      */
     @SuppressWarnings("deprecation")
     public String addTimesheet(Employee e) {
         boolean found = false;
-        for(int i = 0; i < timesheetList.size(); i++) {
-            if(calculateCurrentEndWeek().getYear() == timesheetList.get(i).getEndWeek().getYear()) {
-                if(calculateCurrentEndWeek().getMonth() == timesheetList.get(i).getEndWeek().getMonth()) {
-                    if(calculateCurrentEndWeek().getDay() == timesheetList.get(i).getEndWeek().getDay()) {
+        for (int i = 0; i < timesheetList.size(); i++) {
+            if (calculateCurrentEndWeek().getYear() 
+                    == timesheetList.get(i).getEndWeek().getYear()) {
+                if (calculateCurrentEndWeek().getMonth() 
+                        == timesheetList.get(i).getEndWeek().getMonth()) {
+                    if (calculateCurrentEndWeek().getDay() 
+                            == timesheetList.get(i).getEndWeek().getDay()) {
                         found = true;
                         return null;
                     }
                 }
             }
         }
-        if(!found) {
+        if (!found) {
             int newsheetId = timesheetManager.getAll().length;
             int newrowId = timesheetRowManager.getAll().length;
-            TimesheetModel t = new TimesheetModel(newsheetId, e, calculateCurrentEndWeek());
+            TimesheetModel t = new TimesheetModel(newsheetId,
+                    e, calculateCurrentEndWeek());
             timesheetManager.persist(t);
             timesheetList.add(t);
             // adding 5 empty rows
-            for(int i = 0; i < DEFAULT_ROW; i++) {
-                TimesheetRowModel r = new TimesheetRowModel((newrowId + i), t, 0, "", null, null, null, null, null, null, null, "");
+            for (int i = 0; i < DEFAULT_ROW; i++) {
+                TimesheetRowModel r = new TimesheetRowModel((newrowId + i),
+                        t, 0, "", null, null, null, null, null, null, null, "");
                 timesheetRowManager.persist(r);
                 timesheetRowList.add(r);
             }
@@ -127,26 +137,28 @@ public class TimesheetController implements Serializable{
         return null;
     }
     /**
-     * Get the last index of timesheet list
+     * Get the last index of timesheet list.
      * @return the last index of timesheet list
      */
     public int getLastIndex() {
-        if(timesheetList != null)
-            return timesheetList.size() -1;
+        if (timesheetList != null) {
+            return timesheetList.size() - 1;
+        }
         return 0;
     }
     
     /**
-     * Getting the timesheetRowModel relative to the specific timesheetModel
-     * @param ts
+     * Getting the timesheetRowModel relative to the specific timesheetModel.
+     * @param ts TimesheetModel
      * @return TimesheetRows
      */
     public List<TimesheetRowModel> getTimesheetRows(TimesheetModel ts) {
         timesheetRowList = new ArrayList<TimesheetRowModel>();
         int id = ts.getTimesheetId();
         TimesheetRowModel[] trArr = timesheetRowManager.getByTimesheet(id);
-        for(TimesheetRowModel tr: trArr) {
-            if(tr.getTimesheetModel().getTimesheetId() == ts.getTimesheetId()) {
+        for (TimesheetRowModel tr: trArr) {
+            if (tr.getTimesheetModel().getTimesheetId() 
+                    == ts.getTimesheetId()) {
                 timesheetRowList.add(tr);
             }
         }
@@ -189,6 +201,7 @@ public class TimesheetController implements Serializable{
     }
     /**
      * Calculates the current, real time end week.
+     * @return Date current end week
      */
     public Date calculateCurrentEndWeek() {
         final Calendar c = new GregorianCalendar();
@@ -199,44 +212,48 @@ public class TimesheetController implements Serializable{
     }
     
     /**
-     * add a row on current timesheet
+     * add a row on current timesheet.
+     * @param e Employee
      */
     public void addRow(Employee e) {
         int newrowId = timesheetRowManager.getAll().length;
         System.out.println(newrowId);
-        TimesheetRowModel r = new TimesheetRowModel(newrowId, getCurrentTimesheet(e), 0, "", null, null, null, null, null, null, null, "");
+        TimesheetRowModel r = new TimesheetRowModel(newrowId, 
+                getCurrentTimesheet(e), 0, "", null, null, null,
+                null, null, null, null, "");
         timesheetRowManager.persist(r);
         timesheetRowList.add(r);
         refreshtimesheetRowList(getCurrentTimesheet(e));
     }
     
     /**
-     * save the timesheetrows and update into database after editting 
+     * save the timesheetrows and update into database after editing.
+     * @param t TimesheetModel 
      */
     public void save(TimesheetModel t) {
-    	for(int i = 0; i < timesheetRowList.size(); i++) {
-    		timesheetRowManager.merge(timesheetRowList.get(i));
-    	}
+        for (int i = 0; i < timesheetRowList.size(); i++) {
+            timesheetRowManager.merge(timesheetRowList.get(i));
+        }
     }
     
     /**
-     * refresh timesheet List
-     * @param e
+     * refresh timesheet List.
+     * @param e Employee
      */
     public void refreshtimesheetList(Employee e) {
         timesheetList = getTimesheets(e);
     }
     
     /**
-     * refresh timesheetRow list
-     * @param tm
+     * refresh timesheetRow list.
+     * @param tm TimesheetModel
      */
     public void refreshtimesheetRowList(TimesheetModel tm) {
         timesheetRowList = getTimesheetRows(tm);
     }
     
     /**
-     * check if the time sheet is the current time sheet
+     * check if the time sheet is the current time sheet.
      * @param e Employee
      * @param ts TimesheetModel
      * @return boolean
@@ -245,9 +262,9 @@ public class TimesheetController implements Serializable{
     public boolean isCurrent(Employee e, TimesheetModel ts) {
         TimesheetModel cur = getCurrentTimesheet(e);
         
-        if(cur.getEndWeek().getYear() == ts.getEndWeek().getYear()) {
-            if(cur.getEndWeek().getMonth() == ts.getEndWeek().getMonth()) {
-                if(cur.getEndWeek().getDay() == ts.getEndWeek().getDay()) {
+        if (cur.getEndWeek().getYear() == ts.getEndWeek().getYear()) {
+            if (cur.getEndWeek().getMonth() == ts.getEndWeek().getMonth()) {
+                if (cur.getEndWeek().getDay() == ts.getEndWeek().getDay()) {
                     return true;
                 }
             }
